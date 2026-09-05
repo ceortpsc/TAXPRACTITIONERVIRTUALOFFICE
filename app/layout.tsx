@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./styles.css";
+import "./brand.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const display = Playfair_Display({ subsets: ["latin"], variable: "--font-display" });
 export const metadata: Metadata = { title: "Tax Practitioner Virtual Office", description: "Secure tax-practice operations and authorization control center." };
