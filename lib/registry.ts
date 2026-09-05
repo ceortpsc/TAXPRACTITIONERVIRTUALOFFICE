@@ -1,9 +1,9 @@
 export const authorizations = [
-  ["IRS e-file","EFIN","Masked","Production / Test","active"],
-  ["IRS e-file","ETIN","4 registered","Role-specific","active"],
-  ["ACA AIR","TCC","3 active","Production / Test","active"],
-  ["IRIS","TCC","3 active","Portal / A2A","active"],
-  ["IRS APIs","OAuth clients","2 active","ISP","review"],
+  ["IRS e-file","EFIN","Masked","Production / Test","IRS active","review"],
+  ["IRS e-file","ETIN","4 registered","Role-specific","IRS active","review"],
+  ["ACA AIR","TCC","3 registered","Production / Test","IRS active","test"],
+  ["IRIS","TCC","3 registered","Portal / A2A","IRS active","review"],
+  ["IRS APIs","OAuth clients","2 registered","ISP","IRS active","review"],
 ] as const;
 export const conflicts = [
   ["Critical","Legal entity and EIN differ between e-file and ACA/API/IRIS records.","Keep entities isolated; confirm ownership and submit the correct IRS update before production use.","blocked"],
