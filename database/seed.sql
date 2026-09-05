@@ -1,0 +1,10 @@
+BEGIN;
+INSERT INTO tenants(id,legal_name,trade_names,status) VALUES('00000000-0000-4000-8000-000000000001','LEGAL ENTITY VERIFICATION REQUIRED',ARRAY['Ross Tax Pro Software Co.','254-Tax Consultants'],'review') ON CONFLICT DO NOTHING;
+INSERT INTO permissions(code,description,risk) VALUES
+('tenant.manage','Manage tenant identity and settings','high'),('users.manage','Manage users','high'),('roles.manage','Manage access policy','high'),('client.read','Read assigned client data','controlled'),('client.write','Maintain client data','controlled'),('case.read','Read cases','controlled'),('case.write','Maintain cases','controlled'),('transcript.import','Import authorized transcript evidence','controlled'),('transcript.review','Review transcript evidence','controlled'),('document.read','Read restricted documents','controlled'),('document.write','Add controlled documents','controlled'),('transmission.prepare','Prepare a transmission','high'),('transmission.approve','Independently approve a transmission','high'),('transmission.send','Send approved transmission','high'),('refund_trace.prepare','Prepare refund trace','controlled'),('refund_trace.approve','Approve refund trace submission','high'),('integration.manage','Manage integration configuration','high'),('billing.manage','Manage billing','high'),('audit.read','Read audit evidence','controlled'),('training.manage','Manage training','controlled') ON CONFLICT DO NOTHING;
+INSERT INTO integrations(tenant_id,provider,label,environment,status,configuration) VALUES
+('00000000-0000-4000-8000-000000000001','irs','e-file', 'test','test','{"credential_state":"not_seeded"}'),
+('00000000-0000-4000-8000-000000000001','irs','aca-air','test','test','{"credential_state":"not_seeded"}'),
+('00000000-0000-4000-8000-000000000001','irs','iris-a2a','test','test','{"credential_state":"not_seeded"}'),
+('00000000-0000-4000-8000-000000000001','stripe','payments','test','not_configured','{"credential_state":"not_seeded"}') ON CONFLICT DO NOTHING;
+COMMIT;
