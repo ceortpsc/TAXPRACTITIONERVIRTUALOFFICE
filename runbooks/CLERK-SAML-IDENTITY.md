@@ -41,3 +41,8 @@ After secrets and `APP_URL` are installed, run `npm run identity:invite-owner`. 
 ## 6. Production gate
 
 Production readiness requires: paid Clerk plan, email enabled, domain ownership verified, IdP metadata verified, certificate monitoring, MFA, break-glass test, invitation accepted, role review, route protection test, audit evidence, and rollback rehearsal. Do not enable domain-wide redirection before every item passes.
+# Account Portal activation
+
+The Account Portal dashboard preview requires an authenticated application session. Configure its sign-in, sign-up, unauthorized-sign-in, user-profile, organization-profile, and create-organization redirects to the production application. Store the hosted portal origin as `NEXT_PUBLIC_CLERK_ACCOUNT_PORTAL_URL`; it is a public URL, never a secret.
+
+Application routes are `/sign-in`, `/sign-up`, and `/office`. After keys are installed, create the first owner account, require MFA, confirm the `rosstaxsoftware.com` domain, validate SAML with a non-owner test account, and only then enable domain enforcement. Do not enable SAML before the break-glass owner login has been tested.
