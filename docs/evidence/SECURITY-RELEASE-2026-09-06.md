@@ -14,6 +14,13 @@ Release 0.2.0 adds centralized sensitive-data redaction, AES-256-GCM authenticat
 | Static secret scan | PASS | No private-key blocks, live Stripe secrets, or SSN-shaped values |
 | Production dependency audit | PASS | `npm audit --omit=dev --audit-level=high`: 0 vulnerabilities |
 | Next.js production build | PASS | Next.js 16.3.4 compiled and generated 14 pages; `/api/security/readiness` registered |
+| GitHub release | PASS | Commit `7d47f44f71a3d217ef8799f6c68fa9d527a3b44d` fast-forwarded to `main` and `staging` |
+| Vercel production deployment | PASS | `dpl_2BCehE63MP3KeH8jUnSHpg2uivPM`, `READY`, alias assigned, iad1 |
+| Vercel build | PASS | 86 files, Next.js 16.3.4, 14 pages, build completed in 11 seconds |
+| Runtime error audit | PASS | No Vercel runtime errors found in the one-hour release window |
+| Live security API | PASS | HTTP 200; reports implemented controls and three explicit configuration gates |
+| Live response headers | PASS | CSP, HSTS, COOP, CORP, anti-framing, MIME-sniffing prevention, referrer and permissions policies observed |
+| Protected route gate | PASS | Staff routes redirect to `/identity/setup-required` while Clerk is unconfigured |
 | Database migration | VALIDATED, NOT APPLIED | `004_security_envelopes.sql` is schema-locked; no configured production database exists |
 | Managed encryption key | GATED | Requires `ENCRYPTION_KEY_ID` and `ENCRYPTION_KEY_VERSION` in an approved KMS/HSM |
 | Audit signing key | GATED | Requires `AUDIT_SIGNING_KEY_ID` in an approved KMS/HSM |
@@ -30,3 +37,7 @@ This is verifiable implementation and deployment evidence, not an IRS certificat
 - `GET /api/security/readiness` returns implemented and gated controls without key values.
 - `GET /route-registry.xml` includes the security readiness route.
 - Response headers include CSP, HSTS, anti-framing, MIME-sniffing prevention, permissions policy, and cross-origin isolation controls.
+
+## Live endpoint
+
+Production: `https://tax-practitioner-virtual-office.vercel.app`
