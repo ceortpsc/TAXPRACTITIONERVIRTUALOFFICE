@@ -1,0 +1,4 @@
+import test from "node:test";import assert from "node:assert/strict";import fs from "node:fs";
+test("application interface is fail closed",()=>{const page=fs.readFileSync("app/apply/page.tsx","utf8");assert.match(page,/Applications not yet open/);assert.match(page,/disabled/)});
+test("conferment and transmissions require human approval",()=>{const sql=fs.readFileSync("database/migrations/008_admissions_enrollment_conferment.sql","utf8");assert.match(sql,/approved_by IS NOT NULL/);assert.match(sql,/authority_clear/);assert.match(sql,/reviewed_by IS NOT NULL/)});
+test("external academic gateways default disabled",()=>{const ops=fs.readFileSync("lib/academic-operations.ts","utf8");for(const gate of ["title_iv_eligibility","nsc_contract","proctor_vendor","thecb_authority"])assert.match(ops,new RegExp(gate));assert.match(ops,/degreeEnrollment:"blocked"/)});
