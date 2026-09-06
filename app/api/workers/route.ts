@@ -1,0 +1,1 @@
+import {NextResponse} from "next/server";import {workerReadiness} from "@/lib/workers";export function GET(){return NextResponse.json({workers:workerReadiness(),note:"Registration does not prove external infrastructure is provisioned."},{headers:{"Cache-Control":"no-store"}})}

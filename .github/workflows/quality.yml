@@ -1,0 +1,30 @@
+name: Application Quality
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: npm }
+      - run: npm ci
+      - run: npm run check
+      - name: Verify schema and mapping locks
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          root=pathlib.Path('.')
+          lock=json.loads((root/'database/schema.lock.json').read_text())
+          for path,want in lock['files'].items():
+              got=hashlib.sha256((root/path).read_bytes()).hexdigest()
+              assert got == want, f'{path}: lock mismatch'
+          print(f"verified {len(lock['files'])} locked artifacts")
+          PY
+      - name: Smoke-test registered routes
+        run: node scripts/verify_routes.mjs

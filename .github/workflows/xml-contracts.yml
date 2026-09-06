@@ -1,0 +1,21 @@
+name: XML Contracts
+on:
+  push:
+    branches: [main, staging]
+    paths: ['app/sitemap.ts','app/robots.ts','app/route-registry.xml/**','lib/public-routes.ts','public/**/*.xml','public/**/*.xsd','.github/workflows/xml-contracts.yml']
+  pull_request:
+    paths: ['app/sitemap.ts','app/robots.ts','app/route-registry.xml/**','lib/public-routes.ts','public/**/*.xml','public/**/*.xsd','.github/workflows/xml-contracts.yml']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+      - run: xmllint --noout public/opensearch.xml public/schemas/route-registry.xsd
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: npm }
+      - run: npm ci
+      - run: npm run build
+      - run: node scripts/verify_routes.mjs

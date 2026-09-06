@@ -1,0 +1,24 @@
+name: Release Package
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: npm }
+      - run: npm ci && npm run check
+      - name: Create source manifest
+        run: |
+          git ls-files -z | sort -z | xargs -0 sha256sum > SHA256SUMS.txt
+          tar --exclude-vcs --exclude=node_modules --exclude=.next -czf tax-practitioner-virtual-office-${GITHUB_REF_NAME}.tar.gz .
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            tax-practitioner-virtual-office-${{ github.ref_name }}.tar.gz
+            SHA256SUMS.txt
+          generate_release_notes: true

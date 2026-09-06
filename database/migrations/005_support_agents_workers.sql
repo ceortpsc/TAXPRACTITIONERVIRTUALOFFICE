@@ -1,0 +1,35 @@
+BEGIN;
+
+INSERT INTO permissions(code,description,risk) VALUES
+('support.ticket.read','Read authorized support tickets','controlled'),
+('support.ticket.write','Create and update support tickets','controlled'),
+('support.chat.respond','Send approved support responses','controlled'),
+('support.escalate','Escalate support matters','controlled'),
+('support.knowledge.publish','Publish approved knowledge','high'),
+('support.incident.manage','Manage major incidents','high'),
+('identity.session.revoke','Revoke authenticated sessions','high')
+ON CONFLICT DO NOTHING;
+
+CREATE TYPE support_priority AS ENUM ('P0','P1','P2','P3');
+CREATE TYPE support_status AS ENUM ('received','classified','routed','pending_client_information','pending_supervisor_approval','in_progress','resolved','blocked','escalated','closed');
+CREATE TYPE data_classification AS ENUM ('public','internal','confidential','restricted');
+
+CREATE TABLE support_queues(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),tenant_id uuid NOT NULL REFERENCES tenants(id),code text NOT NULL,name text NOT NULL,division_key text NOT NULL,active boolean NOT NULL DEFAULT true,default_owner_role text NOT NULL,created_at timestamptz NOT NULL DEFAULT now(),UNIQUE(tenant_id,code));
+CREATE TABLE support_tickets(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),tenant_id uuid NOT NULL REFERENCES tenants(id),queue_id uuid NOT NULL REFERENCES support_queues(id),ticket_number text NOT NULL,channel text NOT NULL CHECK(channel IN('email','chat','phone','web','portal','social','internal')),requester_user_id uuid REFERENCES users(id),subject text NOT NULL,summary_redacted text NOT NULL,requested_outcome text,priority support_priority NOT NULL DEFAULT 'P2',status support_status NOT NULL DEFAULT 'received',classification data_classification NOT NULL DEFAULT 'confidential',identity_verified boolean NOT NULL DEFAULT false,authorization_verified boolean NOT NULL DEFAULT false,assigned_user_id uuid REFERENCES users(id),acknowledge_due_at timestamptz,update_due_at timestamptz,resolution_due_at timestamptz,created_at timestamptz NOT NULL DEFAULT now(),updated_at timestamptz NOT NULL DEFAULT now(),closed_at timestamptz,UNIQUE(tenant_id,ticket_number));
+CREATE INDEX support_ticket_queue ON support_tickets(tenant_id,queue_id,status,priority,created_at);
+CREATE TABLE support_messages(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),tenant_id uuid NOT NULL REFERENCES tenants(id),ticket_id uuid NOT NULL REFERENCES support_tickets(id) ON DELETE CASCADE,sender_user_id uuid REFERENCES users(id),direction text NOT NULL CHECK(direction IN('inbound','outbound','internal')),body_ciphertext bytea,body_redacted text NOT NULL,ai_assisted boolean NOT NULL DEFAULT false,approved_by uuid REFERENCES users(id),sent_at timestamptz,created_at timestamptz NOT NULL DEFAULT now(),CHECK(approved_by IS NULL OR approved_by<>sender_user_id));
+CREATE TABLE support_escalations(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),tenant_id uuid NOT NULL REFERENCES tenants(id),ticket_id uuid NOT NULL REFERENCES support_tickets(id),from_queue_id uuid REFERENCES support_queues(id),to_queue_id uuid REFERENCES support_queues(id),reason_code text NOT NULL,risk text NOT NULL CHECK(risk IN('low','medium','high','critical')),requested_by uuid REFERENCES users(id),approved_by uuid REFERENCES users(id),created_at timestamptz NOT NULL DEFAULT now(),accepted_at timestamptz);
+CREATE TABLE knowledge_sources(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),tenant_id uuid NOT NULL REFERENCES tenants(id),source_code text NOT NULL,title text NOT NULL,authority text NOT NULL,url text,classification data_classification NOT NULL,content_sha256 text NOT NULL CHECK(content_sha256 ~ '^[a-f0-9]{64}$'),effective_at timestamptz,expires_at timestamptz,last_verified_at timestamptz,status text NOT NULL DEFAULT 'review',UNIQUE(tenant_id,source_code,content_sha256));
+CREATE TABLE ai_agent_profiles(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),tenant_id uuid NOT NULL REFERENCES tenants(id),code text NOT NULL,name text NOT NULL,discipline text NOT NULL,policy_version text NOT NULL,enabled boolean NOT NULL DEFAULT false,configuration jsonb NOT NULL DEFAULT '{}',approved_by uuid REFERENCES users(id),approved_at timestamptz,UNIQUE(tenant_id,code));
+CREATE TABLE ai_agent_runs(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),tenant_id uuid NOT NULL REFERENCES tenants(id),agent_profile_id uuid NOT NULL REFERENCES ai_agent_profiles(id),ticket_id uuid REFERENCES support_tickets(id),requested_by uuid REFERENCES users(id),input_hash text NOT NULL,classification data_classification NOT NULL,decision text NOT NULL,status text NOT NULL,model_reference text,tool_calls jsonb NOT NULL DEFAULT '[]',output_redacted text,approval_id uuid REFERENCES approvals(id),correlation_id uuid NOT NULL DEFAULT gen_random_uuid(),started_at timestamptz NOT NULL DEFAULT now(),completed_at timestamptz);
+CREATE TABLE worker_definitions(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),tenant_id uuid NOT NULL REFERENCES tenants(id),code text NOT NULL,queue text NOT NULL,schedule text NOT NULL,handler text NOT NULL,enabled boolean NOT NULL DEFAULT false,max_attempts integer NOT NULL DEFAULT 5 CHECK(max_attempts BETWEEN 1 AND 25),configuration jsonb NOT NULL DEFAULT '{}',UNIQUE(tenant_id,code));
+CREATE TABLE worker_runs(id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,tenant_id uuid NOT NULL REFERENCES tenants(id),worker_id uuid NOT NULL REFERENCES worker_definitions(id),idempotency_key text NOT NULL,status task_status NOT NULL DEFAULT 'queued',correlation_id uuid NOT NULL DEFAULT gen_random_uuid(),attempt integer NOT NULL DEFAULT 0,started_at timestamptz,completed_at timestamptz,error_redacted text,metrics jsonb NOT NULL DEFAULT '{}',UNIQUE(tenant_id,idempotency_key));
+CREATE INDEX worker_due ON worker_runs(status,started_at) WHERE status IN('queued','ready','in_progress');
+
+ALTER TABLE support_queues ENABLE ROW LEVEL SECURITY;ALTER TABLE support_tickets ENABLE ROW LEVEL SECURITY;ALTER TABLE support_messages ENABLE ROW LEVEL SECURITY;ALTER TABLE support_escalations ENABLE ROW LEVEL SECURITY;ALTER TABLE knowledge_sources ENABLE ROW LEVEL SECURITY;ALTER TABLE ai_agent_profiles ENABLE ROW LEVEL SECURITY;ALTER TABLE ai_agent_runs ENABLE ROW LEVEL SECURITY;ALTER TABLE worker_definitions ENABLE ROW LEVEL SECURITY;ALTER TABLE worker_runs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY tenant_support_tickets ON support_tickets USING(tenant_id=current_setting('app.tenant_id',true)::uuid) WITH CHECK(tenant_id=current_setting('app.tenant_id',true)::uuid);
+CREATE POLICY tenant_support_messages ON support_messages USING(tenant_id=current_setting('app.tenant_id',true)::uuid) WITH CHECK(tenant_id=current_setting('app.tenant_id',true)::uuid);
+CREATE POLICY tenant_agent_runs ON ai_agent_runs USING(tenant_id=current_setting('app.tenant_id',true)::uuid) WITH CHECK(tenant_id=current_setting('app.tenant_id',true)::uuid);
+CREATE POLICY tenant_worker_runs ON worker_runs USING(tenant_id=current_setting('app.tenant_id',true)::uuid) WITH CHECK(tenant_id=current_setting('app.tenant_id',true)::uuid);
+
+COMMIT;

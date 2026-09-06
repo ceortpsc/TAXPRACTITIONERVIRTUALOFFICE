@@ -1,0 +1,1 @@
+import {NextResponse} from "next/server";import {publicAgentDirectory} from "@/lib/agents";export function GET(){return NextResponse.json({version:"1.0.0",agents:publicAgentDirectory(),control:"Every agent is advisory until an authenticated, authorized human or approved worker performs the action."},{headers:{"Cache-Control":"public, max-age=300"}})}
