@@ -1,0 +1,3 @@
+import test from"node:test";import assert from"node:assert/strict";import fs from"node:fs";
+test("course assessment blueprint totals 221 reviewed bank items",()=>{const s=fs.readFileSync("lib/assessment-blueprints.ts","utf8");const counts=[...s.matchAll(/count:(\d+)/g)].map(m=>Number(m[1]));assert.equal(counts.reduce((a,b)=>a+b,0),221);assert.match(s,/faculty and assessment review/)});
+test("assessment schema protects answers and requires human release",()=>{const s=fs.readFileSync("database/migrations/012_curriculum_assessment_blueprints.sql","utf8");assert.match(s,/correct_response_encrypted bytea/);assert.match(s,/released_by uuid/);assert.match(s,/ENABLE ROW LEVEL SECURITY/);assert.match(s,/target_item_count=221/)});

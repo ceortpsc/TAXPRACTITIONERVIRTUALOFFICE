@@ -1,0 +1,21 @@
+export type GovernanceDocument={code:string;title:string;owner:string;approver:string;reviewCycle:string;status:"draft"|"board_review"|"blocked"};
+export const governanceDocuments:GovernanceDocument[]=[
+ {code:"GOV-001",title:"University Charter and Articles Framework",owner:"Office of the President",approver:"Board of Trustees and counsel",reviewCycle:"Upon material change",status:"board_review"},
+ {code:"GOV-002",title:"Board of Trustees Bylaws",owner:"Board Secretary",approver:"Board of Trustees and counsel",reviewCycle:"Annual",status:"board_review"},
+ {code:"GOV-003",title:"University Governance Manual",owner:"Office of the President",approver:"Board of Trustees",reviewCycle:"Annual",status:"draft"},
+ {code:"GOV-004",title:"Five-Year Strategic Plan",owner:"Institutional Effectiveness",approver:"Board of Trustees",reviewCycle:"Annual refresh",status:"draft"},
+ {code:"GOV-005",title:"Risk and Internal Controls Manual",owner:"Chief Risk and Compliance Officer",approver:"Audit and Risk Committee",reviewCycle:"Annual",status:"draft"},
+ {code:"GOV-006",title:"FERPA and Student Records Policy",owner:"Registrar and Privacy Officer",approver:"President and counsel",reviewCycle:"Annual",status:"blocked"},
+ {code:"GOV-007",title:"ADA and Accessibility Policy",owner:"Accessibility Coordinator",approver:"President and counsel",reviewCycle:"Annual",status:"blocked"},
+ {code:"GOV-008",title:"Title IX Policy and Procedures",owner:"Title IX Coordinator",approver:"Board and counsel",reviewCycle:"On legal change",status:"blocked"},
+ {code:"GOV-009",title:"Safety and Emergency Response Plan",owner:"Emergency Management Lead",approver:"President",reviewCycle:"Annual and after exercise",status:"draft"},
+ {code:"GOV-010",title:"Data Governance and IT Security Policy",owner:"CIO and Privacy Officer",approver:"Audit and Risk Committee",reviewCycle:"Annual",status:"draft"},
+ {code:"ACA-001",title:"Academic Affairs Manual",owner:"Provost",approver:"Academic Council",reviewCycle:"Annual",status:"draft"},
+ {code:"ACA-002",title:"Curriculum and Program Approval Forms",owner:"Curriculum Committee",approver:"Provost and Board as applicable",reviewCycle:"Annual",status:"draft"},
+ {code:"REG-001",title:"Registrar, SIS, Transcript and Conferment Policy",owner:"Registrar",approver:"Provost and counsel",reviewCycle:"Annual",status:"draft"},
+ {code:"ACC-001",title:"Accreditation Self-Study Readiness Report",owner:"Accreditation Liaison",approver:"President and Board",reviewCycle:"Quarterly until authorized",status:"blocked"},
+ {code:"IE-001",title:"Institutional Effectiveness and Assessment Plan",owner:"Institutional Effectiveness",approver:"President and Board",reviewCycle:"Annual",status:"draft"},
+ {code:"ACA-003",title:"Academic Progress, Attendance, GPA and Accountability Policy",owner:"Provost and Registrar",approver:"Academic Council and Board",reviewCycle:"Annual",status:"draft"},
+ {code:"ACA-004",title:"Online Bookstore, EPUB and Course Resource Policy",owner:"Academic Affairs and Accessibility",approver:"President and counsel",reviewCycle:"Annual",status:"blocked"},
+ {code:"ACA-005",title:"Curriculum Resource, Assessment and Proctoring Standard",owner:"Provost and Assessment Director",approver:"Academic Council and Board",reviewCycle:"Annual",status:"draft"},
+];

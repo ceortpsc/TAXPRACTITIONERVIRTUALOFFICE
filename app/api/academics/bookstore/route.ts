@@ -1,0 +1,1 @@
+import{NextResponse}from"next/server";import{bookstoreControls,bookstoreResources}from"@/lib/bookstore";export function GET(){return NextResponse.json({resources:bookstoreResources,controls:bookstoreControls},{headers:{"Cache-Control":"public, max-age=300"}})}

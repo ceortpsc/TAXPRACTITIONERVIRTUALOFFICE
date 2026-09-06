@@ -1,0 +1,4 @@
+import test from "node:test";import assert from "node:assert/strict";import fs from "node:fs";
+test("governance documents distinguish drafts from approval",()=>{const r=fs.readFileSync("lib/governance-registry.ts","utf8");assert.match(r,/Board of Trustees and counsel/);assert.match(r,/status:"blocked"/)});
+test("approved policy exceptions require human approver and expiry",()=>{const sql=fs.readFileSync("database/migrations/009_university_governance_controls.sql","utf8");assert.match(sql,/approved_by IS NOT NULL AND expires_at IS NOT NULL/);assert.match(sql,/ENABLE ROW LEVEL SECURITY/)});
+test("registrar policy prevents autonomous record changes",()=>{const p=fs.readFileSync("docs/university-governance/05-REGISTRAR-SIS-TRANSCRIPT-POLICY.md","utf8");assert.match(p,/AI tools cannot silently overwrite/);assert.match(p,/institutional\/program authority, and human approval/)});

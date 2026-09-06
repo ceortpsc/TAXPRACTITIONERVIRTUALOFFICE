@@ -1,0 +1,5 @@
+export const itemBankStandard=[
+ {type:"single_choice",count:55,label:"Multiple choice"},{type:"multiple_select",count:35,label:"Select all that apply"},{type:"numeric_calculation",count:30,label:"Calculation"},{type:"scenario",count:30,label:"Applied scenario"},{type:"case_analysis",count:20,label:"Case study"},{type:"short_response",count:20,label:"Short response"},{type:"writing",count:12,label:"Writing assignment"},{type:"discussion",count:10,label:"Structured discussion"},{type:"practical",count:6,label:"Workbook/practical"},{type:"oral_defense",count:3,label:"Oral defense"},
+] as const;
+export const itemBankTarget=itemBankStandard.reduce((sum,row)=>sum+row.count,0);
+export const assessmentControls={targetPerCourse:221,status:"authoring_and_faculty_review_required",randomization:"Blueprint-constrained sampling",proctoring:"Risk-based and accommodation-aware",testOut:"Separate approved form with identity, integrity, attempt, and appeal controls",ai:"AI drafts are never operational items until faculty and assessment review"} as const;
