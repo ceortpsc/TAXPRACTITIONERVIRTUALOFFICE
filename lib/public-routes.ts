@@ -1,6 +1,16 @@
 export type PublicRoute={path:string;title:string;description:string;kind:"page"|"api"|"xml";changeFrequency:"daily"|"weekly"|"monthly";priority:number;operational:boolean};
 export const publicRoutes:readonly PublicRoute[]=[
  {path:"/",title:"Tax Practitioner Virtual Office",description:"Public platform overview and authorization posture.",kind:"page",changeFrequency:"weekly",priority:1,operational:false},
+ {path:"/platforms",title:"Platforms",description:"Corporate platform directory.",kind:"page",changeFrequency:"weekly",priority:.9,operational:false},
+ {path:"/solutions",title:"Solutions",description:"Professional technology and service solutions.",kind:"page",changeFrequency:"weekly",priority:.8,operational:false},
+ {path:"/training",title:"Training",description:"Role-based training and career development.",kind:"page",changeFrequency:"weekly",priority:.8,operational:false},
+ {path:"/tax-professionals",title:"Tax Professionals",description:"Practitioner services and secure workspace overview.",kind:"page",changeFrequency:"weekly",priority:.8,operational:false},
+ {path:"/employers",title:"Employers",description:"Employer, payroll-readiness, and workforce solutions.",kind:"page",changeFrequency:"weekly",priority:.7,operational:false},
+ {path:"/students",title:"Students",description:"Student learning and program pathways.",kind:"page",changeFrequency:"weekly",priority:.7,operational:false},
+ {path:"/about",title:"About",description:"Corporate mission, standards, and operating principles.",kind:"page",changeFrequency:"monthly",priority:.6,operational:false},
+ {path:"/careers",title:"Careers",description:"Career paths across the Ross Tax Pro ecosystem.",kind:"page",changeFrequency:"weekly",priority:.6,operational:false},
+ {path:"/support",title:"Support",description:"Customer care and technical support routing.",kind:"page",changeFrequency:"weekly",priority:.7,operational:false},
+ {path:"/contact",title:"Contact",description:"Corporate contact and secure inquiry guidance.",kind:"page",changeFrequency:"monthly",priority:.6,operational:false},
  {path:"/sign-in",title:"Secure Sign In",description:"Clerk-backed staff authentication and SAML entry point.",kind:"page",changeFrequency:"monthly",priority:.3,operational:true},
  {path:"/sign-up",title:"Secure Account Enrollment",description:"Controlled Clerk account enrollment for authorized personnel.",kind:"page",changeFrequency:"monthly",priority:.3,operational:true},
  {path:"/refunds",title:"Refund Command Center",description:"Refund lifecycle and trace workflow overview.",kind:"page",changeFrequency:"weekly",priority:.9,operational:true},
