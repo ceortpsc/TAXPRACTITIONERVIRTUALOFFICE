@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Analytics } from "@vercel/analytics/next";
 import "./styles.css";
 import "./brand.css";
 import "./support.css";
@@ -11,5 +12,5 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const content = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
     ? <ClerkProvider>{children}</ClerkProvider>
     : children;
-  return <html lang="en"><body className={`${inter.variable} ${display.variable}`}>{content}</body></html>;
+  return <html lang="en"><body className={`${inter.variable} ${display.variable}`}>{content}<Analytics /></body></html>;
 }
