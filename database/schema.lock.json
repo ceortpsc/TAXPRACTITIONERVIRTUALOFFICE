@@ -17,9 +17,9 @@
     "package-lock.json": "2ef949db09d572747750c28eb973743e8c006874ef6261e798c0d8d58b9a5449",
     "database/migrations/007_curriculum_catalog_resources.sql": "5a3da8243097dc256765eec1272c8d7707ace2ae48b8bf2d3954eb2fd50e5dc7",
     "database/migrations/008_admissions_enrollment_conferment.sql": "461d347dd73bb59958502bdcaea04d5ee957708294a5a258a6fe3887ff194dda",
-    "database/migrations/009_university_governance_controls.sql": "763316315a8feb842d1f8d1f5a4aa9b1a159dd5a5200733ae1ad97df6a87596d",
+    "database/migrations/009_university_governance_controls.sql": "246c647fdb12b276b99e0afd3e72555ffca1f1ecc6632266abbe6fe5715d151f",
     "database/migrations/010_academic_progress_accountability.sql": "1895ca06370413c865f0217f361dd950544f99e9349700881c72f896fc69d2e7",
     "database/migrations/011_bookstore_resources.sql": "abcf27faa8e08af733d0b918b6622697a646f5b786085383f7d7e7a94549dc90",
-    "database/migrations/012_curriculum_assessment_blueprints.sql": "f0aad51184a8be72d77f4ad0f74da5d74fe3820b71773c8f7ba09fb099d80eba"
+    "database/migrations/012_curriculum_assessment_blueprints.sql": "6ef6140f4b5975cd43624c1e316a51f60fe52a4340bdbeb1cd7c704b39b6f6e3"
   }
 }
