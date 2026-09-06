@@ -1,0 +1,12 @@
+{
+  "name": "Ross Tax Pro Virtual Office MCP",
+  "version": "1.0.0",
+  "endpoint": "/api/mcp",
+  "protocolVersion": "2025-06-18",
+  "requiredScopes": {
+    "connect": "mcp:connect",
+    "readTools": "tools:read",
+    "executeTools": "tools:execute",
+    "readResources": "resources:read"
+  }
+}

@@ -1,5 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse, type NextRequest } from "next/server";
+import { destinationForHost } from "@/lib/subdomains";
 
 const protectedRoute = createRouteMatcher([
   "/office(.*)",
@@ -21,6 +22,15 @@ export default function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   const correlationId = request.headers.get("x-correlation-id") ?? crypto.randomUUID();
   requestHeaders.set("x-correlation-id", correlationId);
+  const hostDestination = destinationForHost(request.headers.get("host") ?? "");
+  if (hostDestination && request.nextUrl.pathname === "/") {
+    const target = request.nextUrl.clone();
+    target.pathname = hostDestination;
+    const response = NextResponse.rewrite(target, { request: { headers: requestHeaders } });
+    response.headers.set("x-correlation-id", correlationId);
+    response.headers.set("x-ross-platform-route", hostDestination);
+    return response;
+  }
 
   if (!configured) {
     if (protectedRoute(request)) {

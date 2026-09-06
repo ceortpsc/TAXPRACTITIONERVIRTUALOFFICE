@@ -11,5 +11,7 @@ export const publicRoutes:readonly PublicRoute[]=[
  {path:"/api/health",title:"Health API",description:"Non-secret application and integration configuration status.",kind:"api",changeFrequency:"daily",priority:.2,operational:true},
  {path:"/api/authorizations",title:"Authorization Registry API",description:"Masked source-status and internal readiness registry.",kind:"api",changeFrequency:"weekly",priority:.2,operational:true},
  {path:"/api/security/readiness",title:"Security Readiness API",description:"Non-secret cryptography, redaction, certificate, and policy configuration posture.",kind:"api",changeFrequency:"daily",priority:.2,operational:true},
+ {path:"/docs/mcp",title:"MCP Integration",description:"Clerk OAuth protected MCP endpoint documentation and scope model.",kind:"page",changeFrequency:"monthly",priority:.3,operational:true},
+ {path:"/api/mcp",title:"MCP Endpoint",description:"Clerk OAuth protected Streamable HTTP MCP endpoint.",kind:"api",changeFrequency:"monthly",priority:.1,operational:true},
 ] as const;
 export function absoluteUrl(path:string){const base=(process.env.APP_URL||"http://localhost:3000").replace(/\/$/,"");return `${base}${path}`;}
