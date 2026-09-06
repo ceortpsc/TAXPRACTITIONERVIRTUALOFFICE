@@ -11,6 +11,9 @@ export const publicRoutes:readonly PublicRoute[]=[
  {path:"/careers",title:"Careers",description:"Career paths across the Ross Tax Pro ecosystem.",kind:"page",changeFrequency:"weekly",priority:.6,operational:false},
  {path:"/support",title:"Support",description:"Customer care and technical support routing.",kind:"page",changeFrequency:"weekly",priority:.7,operational:false},
  {path:"/contact",title:"Contact",description:"Corporate contact and secure inquiry guidance.",kind:"page",changeFrequency:"monthly",priority:.6,operational:false},
+ {path:"/universities",title:"Online Universities",description:"Ross Tax Pro University and Ross E-Drive University online campus directory.",kind:"page",changeFrequency:"weekly",priority:.9,operational:false},
+ {path:"/universities/ross-tax-pro-university",title:"Ross Tax Pro University",description:"AI-assisted online tax and professional education.",kind:"page",changeFrequency:"weekly",priority:.8,operational:false},
+ {path:"/universities/ross-e-drive-university",title:"Ross E-Drive University",description:"AI-assisted online driver education.",kind:"page",changeFrequency:"weekly",priority:.8,operational:false},
  {path:"/sign-in",title:"Secure Sign In",description:"Clerk-backed staff authentication and SAML entry point.",kind:"page",changeFrequency:"monthly",priority:.3,operational:true},
  {path:"/sign-up",title:"Secure Account Enrollment",description:"Controlled Clerk account enrollment for authorized personnel.",kind:"page",changeFrequency:"monthly",priority:.3,operational:true},
  {path:"/refunds",title:"Refund Command Center",description:"Refund lifecycle and trace workflow overview.",kind:"page",changeFrequency:"weekly",priority:.9,operational:true},
@@ -27,5 +30,6 @@ export const publicRoutes:readonly PublicRoute[]=[
  {path:"/api/agents",title:"AI Agent Directory API",description:"Non-secret persona, authority and human-review registry.",kind:"api",changeFrequency:"weekly",priority:.1,operational:true},
  {path:"/api/workers",title:"Worker Readiness API",description:"Non-secret worker and execution-adapter registry.",kind:"api",changeFrequency:"daily",priority:.1,operational:true},
  {path:"/api/ai/assist",title:"Gemini Advisory API",description:"Authenticated, organization-scoped, redacted advisory AI gateway.",kind:"api",changeFrequency:"monthly",priority:.1,operational:true},
+ {path:"/api/universities",title:"University Directory API",description:"Public non-secret university, program, and AI faculty directory.",kind:"api",changeFrequency:"weekly",priority:.1,operational:true},
 ] as const;
 export function absoluteUrl(path:string){const base=(process.env.APP_URL||"http://localhost:3000").replace(/\/$/,"");return `${base}${path}`;}

@@ -9,6 +9,7 @@ const protectedRoute = createRouteMatcher([
   "/master-file(.*)",
   "/settings(.*)",
   "/support-console(.*)",
+  "/learn(.*)",
 ]);
 
 const configured = Boolean(
