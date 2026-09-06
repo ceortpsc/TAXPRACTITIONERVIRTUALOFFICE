@@ -18,11 +18,17 @@ const withClerk = clerkMiddleware(async (auth, request) => {
 });
 
 export default function proxy(request: NextRequest) {
+  const requestHeaders = new Headers(request.headers);
+  const correlationId = request.headers.get("x-correlation-id") ?? crypto.randomUUID();
+  requestHeaders.set("x-correlation-id", correlationId);
+
   if (!configured) {
     if (protectedRoute(request)) {
       return NextResponse.redirect(new URL("/identity/setup-required", request.url));
     }
-    return NextResponse.next();
+    const response = NextResponse.next({ request: { headers: requestHeaders } });
+    response.headers.set("x-correlation-id", correlationId);
+    return response;
   }
   return withClerk(request, {} as never);
 }
@@ -31,5 +37,6 @@ export const config = {
   matcher: [
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     "/(api|trpc)(.*)",
+    "/__clerk/:path*",
   ],
 };

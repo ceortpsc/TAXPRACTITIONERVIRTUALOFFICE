@@ -1,0 +1,16 @@
+node_modules/
+.tools/
+.next/
+out/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+taxpayer-data/
+tmp/

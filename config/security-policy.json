@@ -1,0 +1,11 @@
+{
+  "$schema": "../public/schemas/security-policy.schema.json",
+  "version": "1.0.0",
+  "classification": ["public", "internal", "confidential", "restricted-taxpayer-data"],
+  "encryption": { "atRest": "A256GCM", "inTransit": "TLS1.2+", "keyProvider": "managed-kms", "rotationDays": 90 },
+  "redaction": ["TIN", "EIN", "account_number", "email", "phone", "credential", "private_key"],
+  "xml": { "maxBytes": 1048576, "doctype": false, "externalEntities": false, "schemaValidationRequired": true },
+  "audit": { "appendOnly": true, "hashAlgorithm": "SHA-256", "signing": "managed-key", "retentionDays": 2555 },
+  "separationOfDuties": ["prepare-transmit", "request-approve", "develop-release"],
+  "certificationStatement": "Controls are IRS-aligned design claims only; formal certification requires independent assessment."
+}

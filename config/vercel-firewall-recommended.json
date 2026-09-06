@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "mode": "log-only-review-required",
+  "rules": [
+    { "name": "rate-limit-auth", "path": "/sign-in/*", "action": "log", "windowSeconds": 60, "requests": 30 },
+    { "name": "rate-limit-api", "path": "/api/*", "action": "log", "windowSeconds": 60, "requests": 120 },
+    { "name": "block-hostile-methods", "methods": ["TRACE", "TRACK"], "action": "log" },
+    { "name": "challenge-high-risk-bots", "path": "/*", "condition": "verifiedBot=false AND attackMode=true", "action": "log" }
+  ],
+  "promotion": "Review logs for seven days, document false positives, obtain owner approval, then publish through Vercel Firewall."
+}
