@@ -25,8 +25,12 @@ test("consequential higher-education claims and transmissions are hard-disabled"
   assert.match(registry, /transmissionReady: false/);
 });
 
-test("regulatory readiness API requires identity and limits institutional roles", async () => {
+test("regulatory readiness API requires configured identity and limits institutional roles", async () => {
   const route = await readFile(new URL("../../app/api/academics/regulatory/route.ts", import.meta.url), "utf8");
+  assert.match(route, /NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY/);
+  assert.match(route, /CLERK_SECRET_KEY/);
+  assert.match(route, /IDENTITY_NOT_CONFIGURED/);
+  assert.match(route, /status: 503/);
   assert.match(route, /requireIdentity/);
   assert.match(route, /owner/);
   assert.match(route, /compliance_officer/);
