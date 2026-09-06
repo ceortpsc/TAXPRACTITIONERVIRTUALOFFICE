@@ -1,0 +1,15 @@
+{
+  "expo":{
+    "name":"Ross Tax Pro",
+    "slug":"ross-tax-pro-virtual-office",
+    "version":"1.0.0",
+    "orientation":"portrait",
+    "scheme":"rosstaxtpvo",
+    "userInterfaceStyle":"light",
+    "icon":"./assets/icon.png",
+    "ios":{"supportsTablet":true,"bundleIdentifier":"com.rosstaxsoftware.virtualoffice","associatedDomains":["applinks:clerk.rosstaxsoftware.com"]},
+    "android":{"package":"com.rosstaxsoftware.virtualoffice","adaptiveIcon":{"foregroundImage":"./assets/adaptive-icon.png","backgroundColor":"#071A32"}},
+    "plugins":["expo-secure-store","@clerk/expo",["expo-splash-screen",{"image":"./assets/splash.png","imageWidth":420,"resizeMode":"contain","backgroundColor":"#071A32"}]],
+    "extra":{"supportApiBaseUrl":"https://rosstaxsoftware.com"}
+  }
+}

@@ -8,6 +8,7 @@ const protectedRoute = createRouteMatcher([
   "/casework(.*)",
   "/master-file(.*)",
   "/settings(.*)",
+  "/support-console(.*)",
 ]);
 
 const configured = Boolean(

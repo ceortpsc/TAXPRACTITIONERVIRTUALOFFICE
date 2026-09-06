@@ -13,5 +13,6 @@ export const publicRoutes:readonly PublicRoute[]=[
  {path:"/api/security/readiness",title:"Security Readiness API",description:"Non-secret cryptography, redaction, certificate, and policy configuration posture.",kind:"api",changeFrequency:"daily",priority:.2,operational:true},
  {path:"/docs/mcp",title:"MCP Integration",description:"Clerk OAuth protected MCP endpoint documentation and scope model.",kind:"page",changeFrequency:"monthly",priority:.3,operational:true},
  {path:"/api/mcp",title:"MCP Endpoint",description:"Clerk OAuth protected Streamable HTTP MCP endpoint.",kind:"api",changeFrequency:"monthly",priority:.1,operational:true},
+ {path:"/support-console",title:"Enterprise Support Console",description:"Authenticated customer-care and IT support operations workspace.",kind:"page",changeFrequency:"weekly",priority:.2,operational:true},
 ] as const;
 export function absoluteUrl(path:string){const base=(process.env.APP_URL||"http://localhost:3000").replace(/\/$/,"");return `${base}${path}`;}
