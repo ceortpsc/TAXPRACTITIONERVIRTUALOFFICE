@@ -1,0 +1,3 @@
+import{NextRequest,NextResponse}from"next/server";import{intakeFields,intakeTopics,serviceDepartments,serviceReadiness}from"@/lib/student-services";
+export function GET(){return NextResponse.json({departments:serviceDepartments,topics:intakeTopics,fields:intakeFields,readiness:serviceReadiness},{headers:{"Cache-Control":"no-store"}})}
+export async function POST(request:NextRequest){const contentLength=Number(request.headers.get("content-length")??0);if(contentLength>16_384)return NextResponse.json({error:"REQUEST_TOO_LARGE"},{status:413});return NextResponse.json({error:"SECURE_INTAKE_NOT_CONFIGURED",message:"No information was stored or transmitted."},{status:503,headers:{"Cache-Control":"no-store"}})}

@@ -29,6 +29,8 @@
 20. Academic Progress, Attendance, GPA and Accountability Policy
 21. Online Bookstore, EPUB and Course Resource Policy
 22. Curriculum Resource, Assessment and Proctoring Standard
+23. Student Services Department Operations Manual
+24. University Personnel, Communications and Document Control Manual
 
 ## Academic affairs set
 

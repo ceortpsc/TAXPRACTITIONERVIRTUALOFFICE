@@ -1,0 +1,4 @@
+import test from"node:test";import assert from"node:assert/strict";import fs from"node:fs";
+test("student communication registry contains exactly 76 controlled templates",()=>{const s=fs.readFileSync("lib/student-document-registry.ts","utf8");const titles=s.slice(s.indexOf("const titles=["),s.indexOf("] as const"));assert.equal((titles.match(/"[^"]+"/g)||[]).length,76)});
+test("mailboxes and notifications are not falsely active",()=>{const s=fs.readFileSync("lib/university-directory.ts","utf8");assert.match(s,/not_provisioned/);assert.match(s,/not_connected/)});
+test("issued documents and notifications require approval",()=>{const s=fs.readFileSync("database/migrations/014_university_directory_documents.sql","utf8");assert.match(s,/approved_by IS NOT NULL/);assert.match(s,/ENABLE ROW LEVEL SECURITY/)});

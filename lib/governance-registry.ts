@@ -18,4 +18,6 @@ export const governanceDocuments:GovernanceDocument[]=[
  {code:"ACA-003",title:"Academic Progress, Attendance, GPA and Accountability Policy",owner:"Provost and Registrar",approver:"Academic Council and Board",reviewCycle:"Annual",status:"draft"},
  {code:"ACA-004",title:"Online Bookstore, EPUB and Course Resource Policy",owner:"Academic Affairs and Accessibility",approver:"President and counsel",reviewCycle:"Annual",status:"blocked"},
  {code:"ACA-005",title:"Curriculum Resource, Assessment and Proctoring Standard",owner:"Provost and Assessment Director",approver:"Academic Council and Board",reviewCycle:"Annual",status:"draft"},
+ {code:"SS-001",title:"Student Services Department Operations Manual",owner:"Student Services Director",approver:"President and Board",reviewCycle:"Annual",status:"draft"},
+ {code:"ADM-001",title:"Personnel, Communications and Document Control Manual",owner:"University Administration",approver:"President, counsel and Board",reviewCycle:"Annual",status:"blocked"},
 ];
