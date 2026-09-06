@@ -5,6 +5,10 @@ import { applicationReadiness, proposedDegreeInventory, regulatoryApplicant, reg
 const allowedRoles = new Set(["owner", "super_admin", "compliance_officer", "university_admin", "auditor"]);
 
 export async function GET() {
+  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || !process.env.CLERK_SECRET_KEY) {
+    return NextResponse.json({ error: "IDENTITY_NOT_CONFIGURED" }, { status: 503, headers: { "Cache-Control": "no-store" } });
+  }
+
   try {
     const identity = await requireIdentity();
     if (!identity.roles.some((role) => allowedRoles.has(role))) {
