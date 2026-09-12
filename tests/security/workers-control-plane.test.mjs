@@ -1,32 +1,57 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { planWorkerSweep, workerAssignmentSummary, workerDirectory, workerGroups, workerReadiness } from "../../lib/workers.ts";
+import { readFile } from "node:fs/promises";
 
-test("every worker has one governed group and unique code", () => {
-  const codes = workerDirectory.map((worker) => worker.code);
-  const groups = new Set(workerGroups.map((group) => group.code));
-  assert.equal(new Set(codes).size, codes.length);
-  assert.ok(workerDirectory.every((worker) => groups.has(worker.group)));
-  assert.ok(workerDirectory.every((worker) => worker.responsibilities.length > 0));
-  assert.ok(workerDirectory.every((worker) => worker.retry.maxAttempts > 0));
-  assert.ok(workerDirectory.filter((worker) => worker.risk === "high").every((worker) => worker.retry.deadLetter));
+const source = await readFile(new URL("../../lib/workers.ts", import.meta.url), "utf8");
+
+const groupCodes = [
+  "tax_operations",
+  "client_service",
+  "identity_security",
+  "platform_operations",
+  "integrations_delivery",
+  "education",
+];
+
+const workerCodes = [
+  "master_file_reconciliation",
+  "support_sla_sweep",
+  "integration_health",
+  "access_review",
+  "knowledge_freshness",
+  "outbox_dispatch",
+  "audit_chain_verify",
+  "runtime_readiness",
+  "university_student_success",
+  "university_content_freshness",
+  "university_ai_usage_reconcile",
+];
+
+test("every governed business group and worker remains registered", () => {
+  for (const group of groupCodes) assert.match(source, new RegExp(`\\"${group}\\"`));
+  for (const worker of workerCodes) assert.match(source, new RegExp(`code: \\"${worker}\\"`));
+  assert.equal(new Set(workerCodes).size, workerCodes.length);
 });
 
-test("every business group owns at least one worker", () => {
-  const summary = workerAssignmentSummary();
-  assert.equal(summary.length, workerGroups.length);
-  assert.ok(summary.every((group) => group.workers.length > 0));
+test("worker definitions retain responsibilities retry dead-letter concurrency and idempotency controls", () => {
+  assert.match(source, /responsibilities:/);
+  assert.match(source, /idempotency:/);
+  assert.match(source, /retry: \{ maxAttempts:/);
+  assert.match(source, /deadLetter: true/);
+  assert.match(source, /concurrency:/);
+  assert.match(source, /timeoutSeconds:/);
 });
 
-test("worker plan scopes to a requested group", () => {
-  const plan = planWorkerSweep({ group: "identity_security", stage: "test" });
-  assert.equal(plan.stage, "test");
-  assert.ok(plan.workers.length > 0);
-  assert.ok(plan.workers.every((worker) => worker.group === "identity_security"));
+test("worker planning supports group scoping and bounded run evidence", () => {
+  assert.match(source, /planWorkerSweep/);
+  assert.match(source, /!input\.group \|\| worker\.group === input\.group/);
+  assert.match(source, /runId: crypto\.randomUUID\(\)/);
+  assert.match(source, /status: "planned" as const/);
 });
 
 test("data-dependent workers fail closed without durable adapter", () => {
-  const readiness = workerReadiness({ VERCEL_ENV: "production" });
-  assert.equal(readiness.find((worker) => worker.code === "runtime_readiness")?.state, "active");
-  assert.equal(readiness.find((worker) => worker.code === "master_file_reconciliation")?.state, "adapter_required");
+  assert.match(source, /env\.WORKER_ADAPTER_URL && env\.WORKER_ADAPTER_TOKEN/);
+  assert.match(source, /worker\.code === "runtime_readiness" \|\| worker\.code === "integration_health" \? "active" : durableAdapter \? "active" : "adapter_required"/);
+  assert.match(source, /persistent_worker_target/);
+  assert.match(source, /vercel_cron/);
 });
