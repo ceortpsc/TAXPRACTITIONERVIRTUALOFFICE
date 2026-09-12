@@ -122,7 +122,7 @@ export function createWorkerAdapterServer() {
       return json(res, 200, readiness(), headers);
     }
 
-    if (req.method !== "POST" || req.url !== "/") {
+    if (req.method !== "POST" || (req.url !== "/" && req.url !== "/authz")) {
       return json(res, 404, { error: "NOT_FOUND" }, headers);
     }
 
@@ -131,6 +131,14 @@ export function createWorkerAdapterServer() {
     const authenticated = await authenticateBearer(presentedToken);
     if (!authenticated) return json(res, 401, { error: "UNAUTHORIZED" }, headers);
     headers["x-worker-auth-mode"] = authenticated.mode;
+
+    if (req.url === "/authz") {
+      return json(res, 200, {
+        authenticated: true,
+        mode: authenticated.mode,
+        dataMutationClaimed: false,
+      }, headers);
+    }
 
     let plan;
     try {
