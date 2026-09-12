@@ -11,7 +11,8 @@ test("homepage embeds the governed brand ambassador experience", async () => {
     read("lib/brand-ambassadors.ts"),
   ]);
   assert.match(home, /<BrandAmbassadors\s*\/>/);
-  assert.match(ambassadors, /andreaa-persona\.svg/);
+  assert.match(ambassadors, /brandAmbassadors/);
+  assert.match(registry, /andreaa-persona\.svg/);
   assert.match(registry, /Andreaa Chan’nel/);
   assert.match(registry, /digital persona/i);
   assert.match(registry, /human review/i);
