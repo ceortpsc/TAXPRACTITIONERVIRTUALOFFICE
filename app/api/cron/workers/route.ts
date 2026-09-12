@@ -12,7 +12,7 @@ function isWorkerGroup(value: string | null): value is WorkerGroupCode {
 async function delegateToExternalAdapter(plan: ReturnType<typeof planWorkerSweep>) {
   const url = process.env.WORKER_ADAPTER_URL;
   const token = process.env.WORKER_ADAPTER_TOKEN;
-  if (!url || !token) return { configured: false, dispatched: false, state: "adapter_required" as const };
+  if (!url || !token) return { configured: false, dispatched: false, state: "adapter_required" as const, dataMutationClaimed: false };
 
   const response = await fetch(url, {
     method: "POST",
@@ -26,8 +26,36 @@ async function delegateToExternalAdapter(plan: ReturnType<typeof planWorkerSweep
     signal: AbortSignal.timeout(15000),
   });
 
-  if (!response.ok) return { configured: true, dispatched: false, state: "adapter_error" as const, status: response.status };
-  return { configured: true, dispatched: true, state: "delegated" as const, status: response.status };
+  let adapterBody: { error?: string; state?: string; dataMutationClaimed?: boolean } | null = null;
+  try {
+    adapterBody = await response.json();
+  } catch {
+    adapterBody = null;
+  }
+
+  if (!response.ok) {
+    const state = response.status === 503
+      ? "adapter_degraded"
+      : response.status === 501
+        ? "adapter_blocked"
+        : "adapter_error";
+    return {
+      configured: true,
+      dispatched: false,
+      state,
+      status: response.status,
+      reason: adapterBody?.error ?? "ADAPTER_REQUEST_FAILED",
+      dataMutationClaimed: adapterBody?.dataMutationClaimed === true,
+    } as const;
+  }
+
+  return {
+    configured: true,
+    dispatched: true,
+    state: "delegated" as const,
+    status: response.status,
+    dataMutationClaimed: adapterBody?.dataMutationClaimed === true,
+  };
 }
 
 export async function GET(request: Request) {
@@ -57,7 +85,9 @@ export async function GET(request: Request) {
     });
 
   const adapterCandidates = plan.workers.filter((worker) => worker.code !== "runtime_readiness" && worker.code !== "integration_health");
-  const adapter = adapterCandidates.length ? await delegateToExternalAdapter({ ...plan, workers: adapterCandidates }) : { configured: false, dispatched: false, state: "not_required" as const };
+  const adapter = adapterCandidates.length
+    ? await delegateToExternalAdapter({ ...plan, workers: adapterCandidates })
+    : { configured: false, dispatched: false, state: "not_required" as const, dataMutationClaimed: false };
 
   return NextResponse.json({
     ok: true,
@@ -71,7 +101,7 @@ export async function GET(request: Request) {
       boundedConcurrency: true,
       retriesDefined: true,
       deadLetterDefined: true,
-      dataMutationClaimed: false,
+      dataMutationClaimed: adapter.dataMutationClaimed === true,
     },
   }, { headers: { "Cache-Control": "no-store" } });
 }
