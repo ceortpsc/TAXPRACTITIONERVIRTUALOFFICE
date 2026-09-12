@@ -4,6 +4,7 @@ import ClerkRuntimeProvider from "./ClerkRuntimeProvider";
 import "./styles.css";
 import "./brand.css";
 import "./support.css";
+import "./persona.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const display = Playfair_Display({ subsets: ["latin"], variable: "--font-display" });
