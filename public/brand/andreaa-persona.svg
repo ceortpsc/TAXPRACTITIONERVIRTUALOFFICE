@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" role="img" aria-labelledby="title desc">
+  <title id="title">Andreaa Chan’nel digital brand persona</title>
+  <desc id="desc">Stylized non-likeness editorial illustration for the Andreaa digital concierge persona in Ross Tax Pro Software Co. brand colors.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071a32"/>
+      <stop offset="0.58" stop-color="#102a4a"/>
+      <stop offset="1" stop-color="#020b18"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" x2="1">
+      <stop offset="0" stop-color="#a57d37"/>
+      <stop offset="0.48" stop-color="#e1c27a"/>
+      <stop offset="1" stop-color="#b98e49"/>
+    </linearGradient>
+    <linearGradient id="coat" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffdf8"/>
+      <stop offset="1" stop-color="#dfe3e8"/>
+    </linearGradient>
+    <radialGradient id="halo">
+      <stop offset="0" stop-color="#d8b566" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#d8b566" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="16"/></filter>
+  </defs>
+  <rect width="1200" height="1500" rx="72" fill="url(#bg)"/>
+  <circle cx="790" cy="360" r="430" fill="url(#halo)"/>
+  <g opacity=".2" stroke="#d7dde6" fill="none">
+    <path d="M0 265h1200M0 530h1200M0 795h1200M0 1060h1200M260 0v1500M520 0v1500M780 0v1500M1040 0v1500"/>
+    <circle cx="900" cy="260" r="130"/>
+    <circle cx="900" cy="260" r="200"/>
+  </g>
+  <g transform="translate(210 210)">
+    <ellipse cx="430" cy="535" rx="380" ry="410" fill="#08192e" opacity=".7"/>
+    <ellipse cx="432" cy="310" rx="170" ry="190" fill="#7f5d45"/>
+    <path fill="#161a22" d="M245 310c0-143 81-226 192-226 109 0 195 75 195 215-44-58-121-78-194-75-81 3-142 29-193 86z"/>
+    <path fill="#8f694e" d="M298 338c24 153 83 218 140 218 61 0 121-70 142-220-48 27-93 39-142 40-51 0-96-13-140-38z"/>
+    <path fill="#fffdf8" opacity=".9" d="M384 416q54 34 109 0-17 65-54 65-39 0-55-65z"/>
+    <path fill="#131b29" d="M310 704c53-100 106-132 129-132 24 0 80 31 136 132l98 429H211z"/>
+    <path fill="url(#coat)" d="M114 1100c22-234 112-401 250-494l74 153 73-153c151 91 239 260 255 494z"/>
+    <path fill="#071a32" d="m365 606 73 153 73-153-73-54z"/>
+    <path fill="url(#gold)" d="m421 757 17 2 17-2 23 254-40 74-40-74z"/>
+    <path fill="none" stroke="url(#gold)" stroke-width="8" d="M128 1086c20-188 88-333 214-433M749 1086c-19-188-88-333-214-433"/>
+  </g>
+  <g transform="translate(74 90)">
+    <rect x="0" y="0" width="370" height="72" rx="36" fill="#fffdf8" opacity=".96"/>
+    <circle cx="38" cy="36" r="13" fill="#2f8e6c"/>
+    <text x="66" y="46" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" letter-spacing="2" fill="#071a32">DIGITAL CONCIERGE</text>
+  </g>
+  <g transform="translate(70 1250)">
+    <text x="0" y="0" font-family="Georgia, serif" font-size="88" font-weight="700" fill="#fffdf8">Andreaa Chan’nel</text>
+    <text x="4" y="54" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" letter-spacing="5" fill="#d8b566">RTPSC BRAND PERSONA • GUIDANCE • NAVIGATION • SUPPORT</text>
+  </g>
+  <circle cx="1045" cy="1220" r="66" fill="none" stroke="url(#gold)" stroke-width="5"/>
+  <text x="1009" y="1237" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="#fffdf8">A•</text>
+</svg>

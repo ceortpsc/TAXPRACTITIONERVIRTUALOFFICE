@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 260" role="img" aria-labelledby="title desc">
+  <title id="title">Ross Tax Pro Software Co.</title>
+  <desc id="desc">Navy and gold RTPSC shield with corporate wordmark.</desc>
+  <defs>
+    <linearGradient id="gold" x1="0" x2="1">
+      <stop offset="0" stop-color="#9f7938"/>
+      <stop offset="0.48" stop-color="#d9b86f"/>
+      <stop offset="1" stop-color="#b78d49"/>
+    </linearGradient>
+    <linearGradient id="silver" x1="0" x2="1">
+      <stop offset="0" stop-color="#8e99a8"/>
+      <stop offset="0.5" stop-color="#eef1f5"/>
+      <stop offset="1" stop-color="#aeb7c4"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#020b18" flood-opacity=".22"/>
+    </filter>
+  </defs>
+  <g transform="translate(22 20)" filter="url(#shadow)">
+    <path fill="#071a32" d="M110 0 210 38v73c0 65-38 109-100 134C48 220 10 176 10 111V38z"/>
+    <path fill="none" stroke="url(#gold)" stroke-width="8" d="M110 14 196 47v64c0 56-31 94-86 118-55-24-86-62-86-118V47z"/>
+    <path fill="#fffdf8" d="M60 59h69c36 0 58 18 58 48 0 23-12 38-34 44l37 57h-36l-33-51H91v51H60zm31 28v43h34c18 0 27-8 27-22s-9-21-27-21z"/>
+    <path stroke="url(#silver)" stroke-width="6" stroke-linecap="round" d="M53 220h114"/>
+  </g>
+  <g transform="translate(270 58)">
+    <text x="0" y="54" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800" letter-spacing="4" fill="#071a32">ROSS TAX PRO</text>
+    <text x="2" y="111" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" letter-spacing="7" fill="#9f7938">SOFTWARE CO.</text>
+    <path d="M2 137h820" stroke="#c8ced6" stroke-width="2"/>
+    <text x="2" y="173" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" letter-spacing="5" fill="#526075">TAXES • PEOPLE • TECHNOLOGY</text>
+  </g>
+</svg>
