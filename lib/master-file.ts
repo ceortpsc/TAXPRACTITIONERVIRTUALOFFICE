@@ -36,23 +36,27 @@ export type MasterFileContext = {
   environment: string;
 };
 
-function normalizeText(value: string, max: number) {
+function normalizeText(value: unknown, max: number, code: string) {
+  if (typeof value !== "string") throw new Error(code);
   return value.trim().replace(/\s+/g, " ").slice(0, max);
 }
 
-function assertDate(value: string, field: string) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || Number.isNaN(Date.parse(`${value}T00:00:00Z`))) throw new Error(`INVALID_${field.toUpperCase()}`);
+function assertDate(value: unknown, field: string) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error(`INVALID_${field.toUpperCase()}`);
+  const parsed = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== value) throw new Error(`INVALID_${field.toUpperCase()}`);
   return value;
 }
 
 export function validateMasterFileInput(input: MasterFileCreateInput) {
-  const displayName = normalizeText(input.displayName || "", 120);
+  if (!input || typeof input !== "object") throw new Error("INVALID_MASTER_FILE_INPUT");
+  const displayName = normalizeText(input.displayName, 120, "INVALID_DISPLAY_NAME");
   if (displayName.length < 2) throw new Error("INVALID_DISPLAY_NAME");
-  if (!/^[0-9]{4}$/.test(input.tinLast4 || "")) throw new Error("INVALID_TIN_LAST4");
-  if (!/^\d{4}(?:0[1-9]|1[0-2])$/.test(input.taxPeriod || "")) throw new Error("INVALID_TAX_PERIOD");
+  if (typeof input.tinLast4 !== "string" || !/^[0-9]{4}$/.test(input.tinLast4)) throw new Error("INVALID_TIN_LAST4");
+  if (typeof input.taxPeriod !== "string" || !/^\d{4}(?:0[1-9]|1[0-2])$/.test(input.taxPeriod)) throw new Error("INVALID_TAX_PERIOD");
   if (!(["individual", "business", "estate", "trust", "exempt"] as const).includes(input.clientType)) throw new Error("INVALID_CLIENT_TYPE");
   if (!(["account_transcript", "return_transcript", "record_of_account", "wage_income", "authorized_document", "manual_verified"] as const).includes(input.sourceType)) throw new Error("INVALID_SOURCE_TYPE");
-  const authorizationKind = normalizeText(input.authorizationKind || "", 80);
+  const authorizationKind = normalizeText(input.authorizationKind, 80, "INVALID_AUTHORIZATION_KIND");
   if (authorizationKind.length < 2) throw new Error("INVALID_AUTHORIZATION_KIND");
   const authorizationExpiresAt = input.authorizationExpiresAt ? assertDate(input.authorizationExpiresAt, "authorization_expiry") : undefined;
 
@@ -61,9 +65,9 @@ export function validateMasterFileInput(input: MasterFileCreateInput) {
     clientType: input.clientType,
     tinLast4: input.tinLast4,
     taxPeriod: input.taxPeriod,
-    mft: input.mft ? normalizeText(input.mft, 12).toUpperCase() : undefined,
+    mft: input.mft ? normalizeText(input.mft, 12, "INVALID_MFT").toUpperCase() : undefined,
     sourceType: input.sourceType,
-    sourceReference: input.sourceReference ? normalizeText(input.sourceReference, 120) : undefined,
+    sourceReference: input.sourceReference ? normalizeText(input.sourceReference, 120, "INVALID_SOURCE_REFERENCE") : undefined,
     authorizationKind,
     authorizationExpiresAt,
   };
