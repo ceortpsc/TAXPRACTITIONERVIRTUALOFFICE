@@ -37,8 +37,9 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const requestedGroup = url.searchParams.get("group");
   if (requestedGroup && !isWorkerGroup(requestedGroup)) return NextResponse.json({ error: "Unknown worker group." }, { status: 400 });
+  const group: WorkerGroupCode | undefined = isWorkerGroup(requestedGroup) ? requestedGroup : undefined;
 
-  const plan = planWorkerSweep({ group: requestedGroup || undefined });
+  const plan = planWorkerSweep({ group });
   const localResults = plan.workers
     .filter((worker) => worker.code === "runtime_readiness" || worker.code === "integration_health")
     .map((worker) => {
