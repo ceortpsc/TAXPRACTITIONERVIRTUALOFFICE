@@ -12,7 +12,7 @@ function isWorkerGroup(value: string | null): value is WorkerGroupCode {
 async function delegateToExternalAdapter(plan: ReturnType<typeof planWorkerSweep>) {
   const url = process.env.WORKER_ADAPTER_URL;
   const token = process.env.WORKER_ADAPTER_TOKEN;
-  if (!url || !token) return { configured: false, dispatched: false, state: "adapter_required" as const };
+  if (!url || !token) return { configured: false, dispatched: false, state: "adapter_required" as const, dataMutationClaimed: false };
 
   const response = await fetch(url, {
     method: "POST",
@@ -85,7 +85,9 @@ export async function GET(request: Request) {
     });
 
   const adapterCandidates = plan.workers.filter((worker) => worker.code !== "runtime_readiness" && worker.code !== "integration_health");
-  const adapter = adapterCandidates.length ? await delegateToExternalAdapter({ ...plan, workers: adapterCandidates }) : { configured: false, dispatched: false, state: "not_required" as const };
+  const adapter = adapterCandidates.length
+    ? await delegateToExternalAdapter({ ...plan, workers: adapterCandidates })
+    : { configured: false, dispatched: false, state: "not_required" as const, dataMutationClaimed: false };
 
   return NextResponse.json({
     ok: true,
