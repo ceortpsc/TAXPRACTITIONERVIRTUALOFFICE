@@ -4,6 +4,7 @@ import { destinationForHost } from "@/lib/subdomains";
 
 const protectedRoute = createRouteMatcher([
   "/office(.*)",
+  "/operations(.*)",
   "/refunds(.*)",
   "/casework(.*)",
   "/master-file(.*)",
