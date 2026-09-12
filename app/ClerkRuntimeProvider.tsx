@@ -15,7 +15,7 @@ export default function ClerkRuntimeProvider({ children }: { children: React.Rea
           aria-label="Authenticated user profile"
           style={{ position: "fixed", top: 18, right: 18, zIndex: 1000 }}
         >
-          <UserButton afterSignOutUrl="/" />
+          <UserButton />
         </div>
       </SignedIn>
     </ClerkProvider>
