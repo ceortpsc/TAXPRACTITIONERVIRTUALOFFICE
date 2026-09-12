@@ -1,6 +1,7 @@
 import { createServer } from "node:http";
 import { randomUUID, timingSafeEqual } from "node:crypto";
 import { pathToFileURL } from "node:url";
+import { verifyVercelOidcToken } from "./vercel-oidc.mjs";
 
 const MAX_BODY_BYTES = 256 * 1024;
 const MAX_WORKERS_PER_PLAN = 50;
@@ -30,22 +31,47 @@ function safeTokenMatch(actual, expected) {
   return timingSafeEqual(left, right);
 }
 
+function oidcConfigured() {
+  return Boolean(process.env.VERCEL_EXPECTED_OWNER_ID && process.env.VERCEL_EXPECTED_PROJECT_ID);
+}
+
+async function authenticateBearer(presentedToken) {
+  if (!presentedToken) return null;
+  const expectedToken = process.env.WORKER_ADAPTER_TOKEN;
+  if (safeTokenMatch(presentedToken, expectedToken)) return { mode: "shared_token" };
+  if (!oidcConfigured()) return null;
+
+  try {
+    const identity = await verifyVercelOidcToken(presentedToken);
+    return { mode: "vercel_oidc", identity };
+  } catch {
+    return null;
+  }
+}
+
 function readiness() {
   const tokenConfigured = configured("WORKER_ADAPTER_TOKEN");
+  const workloadIdentityConfigured = oidcConfigured();
+  const authenticationConfigured = tokenConfigured || workloadIdentityConfigured;
   const databaseConfigured = configured("DATABASE_URL");
   const executorEnabled = process.env.WORKER_ADAPTER_EXECUTION_ENABLED === "true";
-  const ready = tokenConfigured && databaseConfigured && executorEnabled;
+  const ready = authenticationConfigured && databaseConfigured && executorEnabled;
   return {
     status: ready ? "ready" : "degraded",
     service: SERVICE,
     stage: process.env.RENDER_SERVICE_NAME ? "render" : (process.env.NODE_ENV ?? "development"),
     checks: {
       token: tokenConfigured ? "configured" : "not_configured",
+      oidc: workloadIdentityConfigured ? "configured" : "not_configured",
       database: databaseConfigured ? "configured" : "not_configured",
       execution: executorEnabled ? "enabled" : "disabled",
     },
     capabilities: {
-      authenticatedPlanIntake: tokenConfigured,
+      authenticatedPlanIntake: authenticationConfigured,
+      authenticationModes: [
+        ...(tokenConfigured ? ["shared_token"] : []),
+        ...(workloadIdentityConfigured ? ["vercel_oidc"] : []),
+      ],
       durableExecution: ready,
       dataMutationClaimed: false,
     },
@@ -96,15 +122,22 @@ export function createWorkerAdapterServer() {
       return json(res, 200, readiness(), headers);
     }
 
-    if (req.method !== "POST" || req.url !== "/") {
+    if (req.method !== "POST" || (req.url !== "/" && req.url !== "/authz")) {
       return json(res, 404, { error: "NOT_FOUND" }, headers);
     }
 
-    const expectedToken = process.env.WORKER_ADAPTER_TOKEN;
     const auth = req.headers.authorization;
     const presentedToken = auth?.startsWith("Bearer ") ? auth.slice(7) : "";
-    if (!safeTokenMatch(presentedToken, expectedToken)) {
-      return json(res, 401, { error: "UNAUTHORIZED" }, headers);
+    const authenticated = await authenticateBearer(presentedToken);
+    if (!authenticated) return json(res, 401, { error: "UNAUTHORIZED" }, headers);
+    headers["x-worker-auth-mode"] = authenticated.mode;
+
+    if (req.url === "/authz") {
+      return json(res, 200, {
+        authenticated: true,
+        mode: authenticated.mode,
+        dataMutationClaimed: false,
+      }, headers);
     }
 
     let plan;
