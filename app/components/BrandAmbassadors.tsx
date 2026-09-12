@@ -41,8 +41,8 @@ export default function BrandAmbassadors() {
             {primary.capabilities.map((capability) => <span key={capability}>{capability}</span>)}
           </div>
           <div className="actions compactActions">
-            <Link className="button primary" href="/support">Ask for guidance</Link>
-            <Link className="button" href="/platforms">Browse every platform</Link>
+            <Link className="button primary" href="/andreaa">Meet Andreaa</Link>
+            <Link className="button" href="/support">Ask for guidance</Link>
           </div>
         </div>
       </div>
