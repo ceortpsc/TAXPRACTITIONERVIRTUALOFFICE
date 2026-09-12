@@ -5,7 +5,9 @@ import test from "node:test";
 test("online learning workspace and tutor are authentication gated", async () => {
   const proxy = await readFile(new URL("../../proxy.ts", import.meta.url), "utf8");
   const tutor = await readFile(new URL("../../app/api/universities/tutor/route.ts", import.meta.url), "utf8");
-  assert.match(proxy, /"\/learn\(\.\*\)"/);
+  assert.doesNotMatch(proxy, /createRouteMatcher/);
+  assert.match(proxy, /"\/learn"/);
+  assert.match(proxy, /isProtectedPath/);
   assert.match(tutor, /identity\.userId/);
   assert.match(tutor, /identity\.orgId/);
   assert.match(tutor, /status:401/);
