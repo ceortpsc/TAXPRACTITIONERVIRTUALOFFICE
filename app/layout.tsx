@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import ClerkRuntimeProvider from "./ClerkRuntimeProvider";
 import "./styles.css";
@@ -11,18 +11,32 @@ const display = Playfair_Display({ subsets: ["latin"], variable: "--font-display
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_URL || "https://rosstaxsoftware.com"),
   title: {
-    default: "Tax Practitioner Virtual Office",
+    default: "Ross Tax Pro Software Co. | Tax Practitioner Virtual Office",
     template: "%s | Ross Tax Pro Software Co.",
   },
-  description: "Secure tax-practice operations and authorization control center.",
+  description: "Secure tax-practice operations, education, payroll, document intelligence, and governed digital guidance.",
+  applicationName: "Ross Tax Pro Software Co. Virtual Office",
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
-    ],
-    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    shortcut: ["/favicon.svg"],
   },
+  openGraph: {
+    type: "website",
+    siteName: "Ross Tax Pro Software Co.",
+    title: "Ross Tax Pro Software Co. | Tax Practitioner Virtual Office",
+    description: "Tax intelligence, professional operations, learning, payroll, and secure virtual-office support.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ross Tax Pro Software Co.",
+    description: "Taxes. People. Technology.",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#071a32",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
