@@ -1,6 +1,6 @@
 "use client";
 
-import { ClerkProvider, SignedIn, UserButton } from "@clerk/nextjs";
+import { ClerkProvider, Show, UserButton } from "@clerk/nextjs";
 
 export default function ClerkRuntimeProvider({ children }: { children: React.ReactNode }) {
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -10,14 +10,14 @@ export default function ClerkRuntimeProvider({ children }: { children: React.Rea
   return (
     <ClerkProvider publishableKey={publishableKey}>
       {children}
-      <SignedIn>
+      <Show when="signed-in">
         <div
           aria-label="Authenticated user profile"
           style={{ position: "fixed", top: 18, right: 18, zIndex: 1000 }}
         >
           <UserButton />
         </div>
-      </SignedIn>
+      </Show>
     </ClerkProvider>
   );
 }
