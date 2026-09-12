@@ -1,5 +1,6 @@
 import { createServer } from "node:http";
-import { timingSafeEqual } from "node:crypto";
+import { randomUUID, timingSafeEqual } from "node:crypto";
+import { pathToFileURL } from "node:url";
 
 const MAX_BODY_BYTES = 256 * 1024;
 const MAX_WORKERS_PER_PLAN = 50;
@@ -88,7 +89,7 @@ function validatePlan(plan) {
 
 export function createWorkerAdapterServer() {
   return createServer(async (req, res) => {
-    const requestId = req.headers["x-worker-run-id"] || crypto.randomUUID();
+    const requestId = req.headers["x-worker-run-id"] || randomUUID();
     const headers = { "x-worker-adapter-request-id": String(requestId) };
 
     if (req.method === "GET" && req.url === "/healthz") {
@@ -148,7 +149,7 @@ export function createWorkerAdapterServer() {
   });
 }
 
-if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const port = Number(process.env.PORT || 10000);
   const server = createWorkerAdapterServer();
   server.listen(port, "0.0.0.0", () => {
