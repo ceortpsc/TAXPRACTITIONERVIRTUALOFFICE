@@ -5,14 +5,26 @@ import { planWorkerSweep, workerGroups, type WorkerGroupCode } from "@/lib/worke
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const PRODUCTION_WORKER_ADAPTER_URL = "https://rtpsc-worker-adapter.onrender.com";
+
 function isWorkerGroup(value: string | null): value is WorkerGroupCode {
   return Boolean(value && workerGroups.some((group) => group.code === value));
 }
 
+function workerAdapterUrl() {
+  return process.env.WORKER_ADAPTER_URL
+    || (process.env.VERCEL_ENV === "production" ? PRODUCTION_WORKER_ADAPTER_URL : undefined);
+}
+
+function workerAdapterCredential() {
+  return process.env.WORKER_ADAPTER_TOKEN || process.env.VERCEL_OIDC_TOKEN;
+}
+
 async function delegateToExternalAdapter(plan: ReturnType<typeof planWorkerSweep>) {
-  const url = process.env.WORKER_ADAPTER_URL;
-  const token = process.env.WORKER_ADAPTER_TOKEN;
-  if (!url || !token) return { configured: false, dispatched: false, state: "adapter_required" as const, dataMutationClaimed: false };
+  const url = workerAdapterUrl();
+  const token = workerAdapterCredential();
+  if (!url) return { configured: false, dispatched: false, state: "adapter_required" as const, dataMutationClaimed: false };
+  if (!token) return { configured: true, dispatched: false, state: "adapter_identity_required" as const, dataMutationClaimed: false };
 
   const response = await fetch(url, {
     method: "POST",
@@ -38,7 +50,9 @@ async function delegateToExternalAdapter(plan: ReturnType<typeof planWorkerSweep
       ? "adapter_degraded"
       : response.status === 501
         ? "adapter_blocked"
-        : "adapter_error";
+        : response.status === 401
+          ? "adapter_identity_rejected"
+          : "adapter_error";
     return {
       configured: true,
       dispatched: false,
@@ -79,7 +93,8 @@ export async function GET(request: Request) {
           identity: Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY),
           databaseReference: Boolean(process.env.DATABASE_URL),
           aiGateway: Boolean(process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN),
-          workerAdapter: Boolean(process.env.WORKER_ADAPTER_URL && process.env.WORKER_ADAPTER_TOKEN),
+          workerAdapterEndpoint: Boolean(workerAdapterUrl()),
+          workerAdapterIdentity: Boolean(workerAdapterCredential()),
         },
       };
     });
@@ -101,6 +116,7 @@ export async function GET(request: Request) {
       boundedConcurrency: true,
       retriesDefined: true,
       deadLetterDefined: true,
+      workloadIdentityPreferred: true,
       dataMutationClaimed: adapter.dataMutationClaimed === true,
     },
   }, { headers: { "Cache-Control": "no-store" } });
