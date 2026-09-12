@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { OperationsSection, OperationsSectionId, OperationalStatus } from "@/lib/operations-center";
 
@@ -80,7 +81,7 @@ export default function OperationsConsole({ initialSnapshot, principal }: Props)
   return (
     <div className="opsFrame">
       <aside className="opsSidebar" aria-label="Operations navigation">
-        <a className="opsHome" href="/office"><span className="opsIcon">⌂</span><span>Home</span></a>
+        <Link className="opsHome" href="/office"><span className="opsIcon">⌂</span><span>Home</span></Link>
         {nav.map((entry) => (
           <button key={entry.id} type="button" className={active === entry.id ? "opsNavItem active" : "opsNavItem"} onClick={() => setActive(entry.id)}>
             <span className="opsIcon" aria-hidden="true">{entry.icon}</span>
@@ -100,7 +101,7 @@ export default function OperationsConsole({ initialSnapshot, principal }: Props)
           </div>
           <div className="opsHeaderActions">
             <button type="button" onClick={refresh} disabled={refreshing}>{refreshing ? "Refreshing…" : "Refresh evidence"}</button>
-            <a href="/office">Virtual Office</a>
+            <Link href="/office">Virtual Office</Link>
           </div>
         </header>
 
