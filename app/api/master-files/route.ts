@@ -11,7 +11,7 @@ async function requireIdentity() {
   const identity = await auth();
   if (!identity.userId) return { error: "AUTHENTICATION_REQUIRED", status: 401 } as const;
   if (!identity.orgId) return { error: "ORGANIZATION_SESSION_REQUIRED", status: 409 } as const;
-  return { identity } as const;
+  return { userId: identity.userId, organizationId: identity.orgId } as const;
 }
 
 export async function GET() {
@@ -38,8 +38,8 @@ export async function POST(request: Request) {
 
   try {
     const record = buildMasterFileRecord(body, {
-      userId: access.identity.userId,
-      organizationId: access.identity.orgId,
+      userId: access.userId,
+      organizationId: access.organizationId,
       environment: runtimeStage(),
     });
     return NextResponse.json({
