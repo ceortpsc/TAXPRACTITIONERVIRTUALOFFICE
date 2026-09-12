@@ -1,6 +1,6 @@
 {
-  "version": 11,
-  "generated": "2026-09-06T00:00:00Z",
+  "version": 12,
+  "generated": "2026-09-12T00:00:00Z",
   "algorithm": "sha256",
   "files": {
     "database/migrations/001_core.sql": "08e8b54022bd443e49e20fcc9f6e7dbb87cafb800f01b69691348c4c66cad5a1",
@@ -22,6 +22,8 @@
     "database/migrations/011_bookstore_resources.sql": "abcf27faa8e08af733d0b918b6622697a646f5b786085383f7d7e7a94549dc90",
     "database/migrations/012_curriculum_assessment_blueprints.sql": "6ef6140f4b5975cd43624c1e316a51f60fe52a4340bdbeb1cd7c704b39b6f6e3",
     "database/migrations/013_student_services_departments.sql": "38c337689325bb9f4ffae769d4ce63fd6da5b913a225a6122acb3e2a3d4f5703",
-    "database/migrations/014_university_directory_documents.sql": "4e1af0d3bef926efee23fde425bc506a17fb608e4a10e16c3d44c38657e8033c"
+    "database/migrations/014_university_directory_documents.sql": "4e1af0d3bef926efee23fde425bc506a17fb608e4a10e16c3d44c38657e8033c",
+    "database/migrations/016_tax_practitioner_master_files.sql": "8785d3a6e4f5144c71a9a9175d37d95baabac8b980be5d6a6b2d7eec0fafe112",
+    "database/migrations/017_worker_control_plane.sql": "f03ff84eac3b6b7934a9123de7eb3d7724e924b3ff53b3555b74c355c4ee9d6d"
   }
 }

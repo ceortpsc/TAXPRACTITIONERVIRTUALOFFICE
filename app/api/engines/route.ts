@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { runtimeWorkerEvidence } from "@/lib/workers";
+import { engineReadiness, engineRegistry, runtimeStage } from "@/lib/runtime/engine-registry";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +10,8 @@ export async function GET() {
   if (!identity.userId) return NextResponse.json({ error: "Authentication required." }, { status: 401 });
 
   return NextResponse.json({
-    controlPlane: runtimeWorkerEvidence(),
-    note: "A registered worker is not evidence of a completed business action. Data-dependent workers remain adapter-gated until the durable worker adapter is configured and verified.",
+    stage: runtimeStage(),
+    engines: engineReadiness(),
+    topology: engineRegistry.map(({ code, name, kind, ownerGroup, purpose, responsibilities, dependencies, execution, scaling, criticality }) => ({ code, name, kind, ownerGroup, purpose, responsibilities, dependencies, execution, scaling, criticality })),
   }, { headers: { "Cache-Control": "no-store" } });
 }
