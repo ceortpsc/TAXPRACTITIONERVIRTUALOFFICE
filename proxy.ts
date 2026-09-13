@@ -60,7 +60,11 @@ const withClerk = clerkMiddleware(
     response.headers.set("x-correlation-id", correlationId);
     return response;
   },
-  { signInUrl: "/sign-in", signUpUrl: "/sign-up" },
+  {
+    signInUrl: "/sign-in",
+    signUpUrl: "/sign-up",
+    frontendApiProxy: { enabled: true },
+  },
 );
 
 export default function proxy(request: NextRequest) {
