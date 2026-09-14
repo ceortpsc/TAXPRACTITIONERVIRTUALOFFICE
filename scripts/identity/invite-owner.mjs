@@ -38,8 +38,6 @@ required("APP_URL", appUrl);
 if (!approved) throw new Error("ACCESS_ISSUANCE_APPROVED=true is required");
 if (!["invite", "issue"].includes(action)) throw new Error("ACCESS_ISSUANCE_ACTION must be invite or issue");
 
-validateIssuedIdentifiers();
-
 const client = createClerkClient({ secretKey });
 const matches = await client.users.getUserList({ emailAddress: [emailAddress], limit: 2 });
 if (matches.data.length > 1) throw new Error("Duplicate production identities detected; access issuance stopped");
@@ -71,6 +69,8 @@ if (action === "invite") {
   }));
   process.exit(0);
 }
+
+validateIssuedIdentifiers();
 
 if (!matches.data.length) throw new Error("No existing verified identity; issue an invitation before assigning access");
 
