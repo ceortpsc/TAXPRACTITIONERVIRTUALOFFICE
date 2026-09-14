@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { UserButton } from "@clerk/nextjs";
 
 export default function AccessPendingPage() {
   return (
@@ -18,7 +17,6 @@ export default function AccessPendingPage() {
         <div className="actions">
           <Link className="button primary" href="/sign-in">Return to sign in</Link>
         </div>
-        <div style={{ marginTop: 24 }}><UserButton /></div>
       </section>
     </main>
   );
