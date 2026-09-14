@@ -7,18 +7,33 @@ export type IdentityPrincipal = {
   subject: string;
   email: string | null;
   roles: Role[];
+  mfaVerified: true;
+  accessStatus: "issued";
 };
 
 export async function requireIdentity(): Promise<IdentityPrincipal> {
   const { userId } = await auth();
   if (!userId) throw new Error("UNAUTHENTICATED");
+
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
   const claimed = Array.isArray(user.publicMetadata.roles) ? user.publicMetadata.roles : [];
-  const assignedRoles = claimed.filter((value): value is Role => typeof value === "string" && allowed.has(value));
+  const assignedRoles = claimed.filter(
+    (value): value is Role => typeof value === "string" && allowed.has(value),
+  );
+
+  if (user.publicMetadata.accessStatus !== "issued" || assignedRoles.length === 0) {
+    throw new Error("ACCESS_NOT_ISSUED");
+  }
+  if (!user.twoFactorEnabled) {
+    throw new Error("MFA_REQUIRED");
+  }
+
   return {
     subject: user.id,
     email: user.primaryEmailAddress?.emailAddress ?? null,
     roles: assignedRoles,
+    mfaVerified: true,
+    accessStatus: "issued",
   };
 }
