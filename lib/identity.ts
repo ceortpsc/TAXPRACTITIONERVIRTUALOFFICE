@@ -6,13 +6,14 @@ const allowed = new Set<string>(roles);
 export type IdentityPrincipal = {
   subject: string;
   email: string | null;
+  organizationId: string | null;
   roles: Role[];
   mfaVerified: true;
   accessStatus: "issued";
 };
 
 export async function requireIdentity(): Promise<IdentityPrincipal> {
-  const { userId } = await auth();
+  const { userId, orgId } = await auth();
   if (!userId) throw new Error("UNAUTHENTICATED");
 
   const client = await clerkClient();
@@ -32,6 +33,7 @@ export async function requireIdentity(): Promise<IdentityPrincipal> {
   return {
     subject: user.id,
     email: user.primaryEmailAddress?.emailAddress ?? null,
+    organizationId: orgId ?? null,
     roles: assignedRoles,
     mfaVerified: true,
     accessStatus: "issued",
