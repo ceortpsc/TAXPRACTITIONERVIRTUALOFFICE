@@ -58,7 +58,7 @@ if (action === "invite") {
       issuanceId,
       issuanceTicket: ticket,
     },
-    redirectUrl: `${appUrl}/office`,
+    redirectUrl: `${appUrl}/identity/access-pending`,
     ignoreExisting: false,
   });
   console.log(JSON.stringify({
