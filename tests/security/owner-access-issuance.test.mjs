@@ -23,11 +23,20 @@ test("IRS-issued identifiers remain private and auditable", () => {
   assert.match(source, /classification: "restricted"/);
   assert.match(source, /source: "IRS-issued"/);
   assert.match(source, /identifierFingerprints/);
-  assert.doesNotMatch(source, /publicMetadata:[\s\S]{0,600}professionalIdentifiers/);
+
+  const metadataUpdate = source.slice(
+    source.indexOf("await client.users.updateUserMetadata"),
+    source.indexOf("  privateMetadata:")
+  );
+  assert.doesNotMatch(metadataUpdate, /professionalIdentifiers|\bptin\b|\bcaf\b|\befin\b/);
 });
 
-test("invitation does not grant an active owner role", () => {
-  const invitation = source.slice(source.indexOf('if (action === "invite")'), source.indexOf('if (!matches.data.length)'));
+test("invitation does not grant an active owner role or expose issued identifiers", () => {
+  const invitation = source.slice(
+    source.indexOf('if (action === "invite")'),
+    source.indexOf("if (!matches.data.length)")
+  );
   assert.match(invitation, /requestedRole: "owner"/);
   assert.doesNotMatch(invitation, /roles:\s*\["owner"\]/);
+  assert.doesNotMatch(invitation, /professionalIdentifiers|\bptin\b|\bcaf\b|\befin\b/);
 });
