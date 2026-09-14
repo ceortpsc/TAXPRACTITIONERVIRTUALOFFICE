@@ -31,12 +31,15 @@ test("IRS-issued identifiers remain private and auditable", () => {
   assert.doesNotMatch(metadataUpdate, /professionalIdentifiers|\bptin\b|\bcaf\b|\befin\b/);
 });
 
-test("invitation does not grant an active owner role or expose issued identifiers", () => {
-  const invitation = source.slice(
-    source.indexOf('if (action === "invite")'),
-    source.indexOf("if (!matches.data.length)")
-  );
+test("invitation does not grant an active owner role or require issued identifiers", () => {
+  const invitationStart = source.indexOf('if (action === "invite")');
+  const issuanceValidation = source.indexOf("validateIssuedIdentifiers();");
+  const identityRequirement = source.indexOf("if (!matches.data.length)", invitationStart);
+  const invitation = source.slice(invitationStart, identityRequirement);
+
+  assert.ok(invitationStart >= 0);
+  assert.ok(issuanceValidation > identityRequirement);
   assert.match(invitation, /requestedRole: "owner"/);
   assert.doesNotMatch(invitation, /roles:\s*\["owner"\]/);
-  assert.doesNotMatch(invitation, /professionalIdentifiers|\bptin\b|\bcaf\b|\befin\b/);
+  assert.doesNotMatch(invitation, /validateIssuedIdentifiers|professionalIdentifiers|\bptin\b|\bcaf\b|\befin\b/);
 });
