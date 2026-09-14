@@ -2,8 +2,10 @@ import Link from "next/link";
 import MasterFileWorkspace from "./MasterFileWorkspace";
 import { masterFileChecks } from "@/lib/master-file";
 import "./master-file.css";
+import { requireIdentity } from "@/lib/identity";
 
-export default function MasterFile() {
+export default async function MasterFile() {
+  await requireIdentity();
   return (
     <main>
       <header>
