@@ -1,6 +1,6 @@
 {
-  "version": 13,
-  "generated": "2026-09-12T18:10:00Z",
+  "version": 16,
+  "generated": "2026-09-16T18:28:00Z",
   "algorithm": "sha256",
   "files": {
     "database/migrations/001_core.sql": "08e8b54022bd443e49e20fcc9f6e7dbb87cafb800f01b69691348c4c66cad5a1",
@@ -26,6 +26,10 @@
     "database/migrations/014_university_directory_documents.sql": "4e1af0d3bef926efee23fde425bc506a17fb608e4a10e16c3d44c38657e8033c",
     "database/migrations/015_operational_control_plane.sql": "9b738114601f60bb00328431390ee5149476d4913dbc345c90dc94214a9ae5a6",
     "database/migrations/016_tax_practitioner_master_files.sql": "8785d3a6e4f5144c71a9a9175d37d95baabac8b980be5d6a6b2d7eec0fafe112",
-    "database/migrations/017_worker_control_plane.sql": "f03ff84eac3b6b7934a9123de7eb3d7724e924b3ff53b3555b74c355c4ee9d6d"
+    "database/migrations/017_worker_control_plane.sql": "f03ff84eac3b6b7934a9123de7eb3d7724e924b3ff53b3555b74c355c4ee9d6d",
+    "database/migrations/018_evidence_ledger.sql": "d41e1beab288153ce6010d235fb9881636bf9e8edc7443b99706689f756be5a6",
+    "database/migrations/019_irs_provider_authority.sql": "75bbb5a9f4a8066185d2497465f24b7e9dba910a9d3600f1db68d2f688ad1d1d",
+    "database/migrations/020_runtime_forensic_evidence.sql": "19835bbebc14fe22f1ef3e7604b79c6f2336ec6f2de3f186540f358d67d28a74",
+    "mappings/irs-provider-authority-map.json": "8f5de06284daef015d473d4cac43907ae6c5d6370b3fd15bcff2c2db21ad4a20"
   }
 }
