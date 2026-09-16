@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "2026-09-16.1",
+  "classification": "PUBLIC_SAFE_EVIDENCE_MAP",
+  "sourceStatus": "DOCUMENTED_SNAPSHOT",
+  "runtimeStatus": "NOT_INFERRED_FROM_DOCUMENTS",
+  "rules": [
+    "Provider application status is documentary evidence and does not prove that runtime credentials are installed.",
+    "Provider option acceptance does not by itself prove a successful production transmission.",
+    "No full EFIN, ETIN, TCC, EIN, SSN, API client ID, tracking number, phone, email, street address, or third-party PII is published in this map.",
+    "Truncated values in a source are not completed or guessed."
+  ],
+  "sources": [
+    {
+      "sourceRef": "irs-api-client-application",
+      "fileName": "api1-copy.pdf",
+      "sha256": "bb007bd0b936672954712235f79ad71aab69009cbb7c48ad85f0cde576be2832",
+      "documentType": "IRS_API_CLIENT_ID_APPLICATION",
+      "pages": 1,
+      "applicationStatus": "Completed",
+      "applicationTracking": "REDACTED",
+      "businessIdentity": {
+        "legalName": "ROSS TAX PREP AND BOOKKEEPING",
+        "dba": "254-tax consultants",
+        "ein": "**-***1499"
+      },
+      "apiClient": {
+        "label": "rosstax_app_api",
+        "clientId": "1280...fcc5",
+        "selectedApis": ["SOR", "TDS", "TINM", "IRIS"],
+        "integrationType": "ISP",
+        "redirectUrl": "TRUNCATED_IN_SOURCE",
+        "status": "Active"
+      }
+    },
+    {
+      "sourceRef": "iris-tcc-application",
+      "fileName": "api2-copy.pdf",
+      "sha256": "a39ac04919376cdcefdf07477ce227dd734abf7ce27b23ae17d368dee775575f",
+      "documentType": "IRS_IRIS_TCC_APPLICATION",
+      "pages": 2,
+      "applicationStatus": "Completed",
+      "applicationTracking": "REDACTED",
+      "responsibleOfficialSignatures": 2,
+      "roles": [
+        {"role": "Transmitter", "status": "Accepted"},
+        {"role": "Software Developer", "status": "Accepted"}
+      ],
+      "tcc": [
+        {"role": "Transmitter", "method": "A2A", "id": "***0B", "status": "Active", "indicator": "T"},
+        {"role": "Transmitter", "method": "Portal", "id": "***0C", "status": "Active", "indicator": "P"},
+        {"role": "Software Developer", "method": "A2A", "id": "***0D", "status": "Active", "indicator": "T"}
+      ],
+      "forms": ["1099 Series", "1042-S"]
+    },
+    {
+      "sourceRef": "aca-tcc-application",
+      "fileName": "api3.pdf",
+      "sha256": "1853d881c9c65a39df5af5f07fcca54e2dd41678088b526413cc90a4e1522e5a",
+      "documentType": "IRS_ACA_TCC_APPLICATION",
+      "pages": 2,
+      "applicationStatus": "Completed",
+      "applicationTracking": "REDACTED",
+      "roles": ["Issuer", "Transmitter", "Software Developer"],
+      "tcc": [
+        {"role": "Issuer", "id": "***S9", "status": "Active", "indicator": "P"},
+        {"role": "Transmitter", "id": "***SB", "status": "Active", "indicator": "P"},
+        {"role": "Software Developer", "id": "***S8", "status": "Active", "indicator": "T"}
+      ],
+      "softwarePackage": {
+        "taxYear": 2025,
+        "type": "In-House",
+        "productName": "ROSS TAX SOFTWARE EDUCATION",
+        "status": "Test",
+        "forms": ["1094/1095B", "1094/1095C"],
+        "softwareIds": ["******4344", "******4345"]
+      }
+    },
+    {
+      "sourceRef": "efile-application",
+      "fileName": "api4.pdf",
+      "sha256": "d6630b5d2b28c934a2c6198c8f7b09cc1c7be84ec17bf5e87ad38daadc3be7e5",
+      "documentType": "IRS_EFILE_APPLICATION",
+      "pages": 2,
+      "applicationStatus": "Completed",
+      "applicationTracking": "REDACTED",
+      "legalName": "REDACTED_PERSONAL_NAME",
+      "dba": "254 -TAX CONSULTANTS",
+      "suitabilityStatus": "Completed",
+      "termsStatus": "Signed",
+      "providerOptions": [
+        {"role": "Electronic Return Originator", "status": "Accepted", "serviceType": "For Profit"},
+        {"role": "Intermediate Service Provider", "status": "Accepted", "serviceType": "For Profit"},
+        {"role": "Online Provider", "status": "Accepted", "serviceType": "For Profit"},
+        {"role": "Software Developer", "status": "Accepted", "serviceType": "For Profit"},
+        {"role": "Transmitter", "status": "Accepted", "serviceType": "For Profit"}
+      ],
+      "formsTransmissionStatus": "Test",
+      "efin": {"id": "***335", "status": "Active"},
+      "etins": [
+        {"id": "**181", "environment": "Production", "status": "Active", "role": "Online Provider"},
+        {"id": "**409", "environment": "Production", "status": "Active", "role": "Transmitter"},
+        {"id": "**410", "environment": "Test", "status": "Active", "role": "Software Developer"}
+      ],
+      "visibleForms": ["1040", "1040NR", "1041", "1042", "1065", "1120", "1120POL", "2290", "2350", "4720", "4868", "5227", "5330", "56", "7004", "720", "8038CP", "8849", "9465", "94x Annual", "94x Qtrly", "94xPINReg", "990", "990T"],
+      "formsListCompleteness": "VISIBLE_SOURCE_LIST_ONLY"
+    },
+    {
+      "sourceRef": "bank-product-dispute-correspondence",
+      "fileName": "pp.pdf",
+      "sha256": "88f743903fe377a12cf5947f597cd11654f55902b8ef89385750dbb65f54679a",
+      "documentType": "RENDERED_EMAIL_COPY_WITH_ATTACHMENT_IMAGE",
+      "pages": 2,
+      "providerContext": ["SBTPG", "Green Dot Bank"],
+      "containsSensitiveThirdPartyData": true,
+      "publicFields": "REDACTED",
+      "evidenceLimitations": [
+        "Not an RFC822 .eml source file",
+        "Complete email headers are not present",
+        "Delivery status is not present",
+        "Provider-native SBTPG ledger and disbursement trace are not present",
+        "Assertions in the correspondence are not provider verification"
+      ]
+    }
+  ],
+  "schemaMapping": {
+    "providerApplicationSnapshots": ["evidence_artifacts", "provider_authority_applications", "provider_authority_roles", "provider_authority_identifiers", "provider_api_client_registrations", "provider_form_authorizations", "provider_software_packages"],
+    "taxReturnAuditAndAccess": ["return_audit_events", "return_access_events", "return_revision_snapshots"],
+    "irsMef": ["mef_submissions", "mef_transmission_attempts", "mef_acknowledgments", "mef_business_rule_results"],
+    "irsApi": ["irs_api_authorization_context", "irs_api_requests"],
+    "sbtpgOrBankProduct": ["bank_product_cases", "bank_product_status_events", "bank_product_ledger_entries", "bank_product_disbursements"],
+    "email": ["email_messages", "email_headers", "email_delivery_events"],
+    "workers": ["worker_attempt_logs", "worker_runs", "worker_run_items", "worker_dead_letters"],
+    "webhooks": ["webhook_events", "webhook_delivery_attempts"],
+    "networkAndEdge": ["network_request_events", "security_edge_events"],
+    "stripe": ["stripe_events", "stripe_api_requests"]
+  }
+}
