@@ -11,6 +11,8 @@ const protectedPrefixes = [
   "/settings",
   "/support-console",
   "/learn",
+  "/billing",
+  "/crm",
 ] as const;
 
 function isProtectedPath(pathname: string) {
