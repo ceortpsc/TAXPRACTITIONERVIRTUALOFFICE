@@ -1,0 +1,187 @@
+{
+  "version": "2026-09-16",
+  "currency": "usd",
+  "merchant": "Ross Tax Pro Software Co.",
+  "items": [
+    {
+      "key": "tax_consultation_standard",
+      "category": "tax_services",
+      "name": "Tax Consultation — Standard",
+      "description": "Structured tax consultation for tax planning, return-readiness review, document planning, and service scoping. Tax advice and filing work remain subject to a signed engagement and professional review.",
+      "billing": { "kind": "one_time", "amount_cents": 79999 },
+      "stripe": { "product_id": "rtpsc_tax_consultation_standard", "lookup_key": "rtpsc_tax_consultation_standard_usd_2026", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": true, "requires_signed_agreement": false },
+      "features": ["Structured consultation", "Document-readiness checklist", "Service-scope recommendation", "Written next-step summary"]
+    },
+    {
+      "key": "tax_consultation_executive",
+      "category": "tax_services",
+      "name": "Tax Consultation — Executive",
+      "description": "Extended executive consultation for complex individual, business, payroll, compliance, or multi-service planning. Engagement-specific work is separately authorized.",
+      "billing": { "kind": "one_time", "amount_cents": 99999 },
+      "stripe": { "product_id": "rtpsc_tax_consultation_executive", "lookup_key": "rtpsc_tax_consultation_executive_usd_2026", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": true, "requires_signed_agreement": false },
+      "features": ["Extended consultation", "Cross-service planning", "Priority follow-up routing", "Written action plan"]
+    },
+    {
+      "key": "individual_tax_return_2026",
+      "category": "tax_services",
+      "name": "Individual Tax Return Preparation — 2026",
+      "description": "Base preparation service for an individual federal income-tax return. The signed engagement controls final scope and fee when additional schedules, states, businesses, investments, amendments, representation, or specialty work are required.",
+      "billing": { "kind": "one_time", "amount_cents": 149999 },
+      "stripe": { "product_id": "rtpsc_individual_tax_return_2026", "lookup_key": "rtpsc_individual_tax_return_2026_usd", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": false, "requires_signed_agreement": true },
+      "features": ["Return preparation", "Document review", "Human quality review", "E-file readiness subject to authorization"]
+    },
+    {
+      "key": "schedule_c_return_2026",
+      "category": "tax_services",
+      "name": "Schedule C / Self-Employed Return — 2026",
+      "description": "Base preparation service for an individual return including one Schedule C business. Additional businesses, states, bookkeeping cleanup, payroll reconciliation, or specialty schedules may change the final engagement fee.",
+      "billing": { "kind": "one_time", "amount_cents": 149999 },
+      "stripe": { "product_id": "rtpsc_schedule_c_return_2026", "lookup_key": "rtpsc_schedule_c_return_2026_usd", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": false, "requires_signed_agreement": true },
+      "features": ["Individual return preparation", "One Schedule C business", "Business-document review", "Human quality review"]
+    },
+    {
+      "key": "business_return_2026",
+      "category": "tax_services",
+      "name": "Business Return Preparation — 2026",
+      "description": "Base business-return preparation service. Entity type, states, bookkeeping condition, ownership complexity, elections, payroll reconciliation, and specialty filings can change the final quoted fee.",
+      "billing": { "kind": "one_time", "amount_cents": 199999 },
+      "stripe": { "product_id": "rtpsc_business_return_2026", "lookup_key": "rtpsc_business_return_2026_usd", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Business return preparation", "Entity-level review", "Human quality review", "Filing readiness subject to authorization"]
+    },
+    {
+      "key": "rental_investment_return_2026",
+      "category": "tax_services",
+      "name": "Rental / Investment Return — 2026",
+      "description": "Base preparation service for returns requiring rental-property or investment reporting. Additional properties, brokerage complexity, basis reconstruction, states, or specialty reporting may change the final engagement fee.",
+      "billing": { "kind": "one_time", "amount_cents": 164999 },
+      "stripe": { "product_id": "rtpsc_rental_investment_return_2026", "lookup_key": "rtpsc_rental_investment_return_2026_usd", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": false, "requires_signed_agreement": true },
+      "features": ["Rental or investment reporting", "Document reconciliation", "Human quality review", "Engagement-based scope control"]
+    },
+    {
+      "key": "amended_return_1040x",
+      "category": "tax_services",
+      "name": "Amended Individual Return — Form 1040-X",
+      "description": "Preparation of an amended individual income-tax return based on verified prior-return records and supporting documentation. Additional years, state amendments, notices, or representation are separate scope items.",
+      "billing": { "kind": "one_time", "amount_cents": 89999 },
+      "stripe": { "product_id": "rtpsc_amended_return_1040x", "lookup_key": "rtpsc_amended_return_1040x_usd_2026", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": false, "requires_signed_agreement": true },
+      "features": ["Amendment preparation", "Prior-return reconciliation", "Supporting-document review", "Human approval before filing"]
+    },
+    {
+      "key": "prime_payroll_monthly",
+      "category": "payroll",
+      "name": "Ross Prime Payroll Management",
+      "description": "Monthly payroll-management service and employer workflow access. Implementation, historical cleanup, amended payroll returns, special projects, third-party fees, and extraordinary filings may be separately billed.",
+      "billing": { "kind": "recurring", "amount_cents": 29999, "interval": "month", "interval_count": 1 },
+      "stripe": { "product_id": "rtpsc_prime_payroll_monthly", "lookup_key": "rtpsc_prime_payroll_monthly_usd_2026", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Monthly payroll operations", "Employer workflow support", "Billing portal access", "Webhook-driven subscription state"]
+    },
+    {
+      "key": "edrive_driver_education",
+      "category": "education",
+      "name": "Ross E-Drive University — Online Driver Education",
+      "description": "Online driver-education enrollment product. Course access, identity checks, progress requirements, completion rules, and regulatory availability remain subject to the applicable program approval and enrollment terms.",
+      "billing": { "kind": "one_time", "amount_cents": 11999 },
+      "stripe": { "product_id": "rtpsc_edrive_driver_education", "lookup_key": "rtpsc_edrive_driver_education_usd_2026", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": false, "requires_signed_agreement": true },
+      "features": ["Online course access", "Progress tracking", "Identity-control readiness", "Completion subject to program rules"]
+    },
+    {
+      "key": "nexus_os_premium_monthly",
+      "category": "software",
+      "name": "ChatTaxPro Nexus OS — Premium",
+      "description": "Premium monthly software subscription for governed tax-practice operations, workflow, document, case, and service-management capabilities. Regulated provider connections remain separately gated by credentials, authorization, and runtime verification.",
+      "billing": { "kind": "recurring", "amount_cents": 49900, "interval": "month", "interval_count": 1 },
+      "stripe": { "product_id": "rtpsc_nexus_os_premium_monthly", "lookup_key": "rtpsc_nexus_os_premium_monthly_usd_2026", "seed_strategy": "create_or_verify" },
+      "checkout": { "enabled": true, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Governed tax-practice workspace", "Role-based workflows", "Document and case operations", "Provider integrations fail closed until verified"]
+    },
+    {
+      "key": "rapid_response_audit_defense",
+      "category": "professional_services",
+      "name": "Rapid Response Audit Defense",
+      "description": "Notice-response, audit-defense, documentation, and escalation services scoped to the taxpayer authorization, issue, tax period, and engagement. Pricing is quote-based because case complexity varies.",
+      "billing": { "kind": "quote" },
+      "stripe": { "product_id": "rtpsc_rapid_response_audit_defense", "lookup_key": null, "seed_strategy": "product_only" },
+      "checkout": { "enabled": false, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Notice triage", "Response planning", "Document binder support", "Human-reviewed escalation"]
+    },
+    {
+      "key": "pdf_editor_business",
+      "category": "software",
+      "name": "Ross PDF Universal Editor — Business",
+      "description": "Business document editing, OCR, signing, controlled export, and workflow tooling. Commercial pricing is quote-based until the final licensing plan is activated.",
+      "billing": { "kind": "quote" },
+      "stripe": { "product_id": "rtpsc_pdf_editor_business", "lookup_key": null, "seed_strategy": "product_only" },
+      "checkout": { "enabled": false, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["OCR and editing", "Controlled signing workflow", "Secure export", "Business document operations"]
+    },
+    {
+      "key": "tax_pro_university_program",
+      "category": "education",
+      "name": "Ross Tax Pro University — Program Enrollment",
+      "description": "Professional tax and operations education enrollment. Program-specific tuition, admissions rules, academic status, and regulated claims remain controlled by the published program catalog and human academic governance.",
+      "billing": { "kind": "quote" },
+      "stripe": { "product_id": "rtpsc_tax_pro_university_program", "lookup_key": null, "seed_strategy": "product_only" },
+      "checkout": { "enabled": false, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Program enrollment", "Learning workspace", "Academic progress controls", "Human-governed records"]
+    },
+    {
+      "key": "balance_settlement",
+      "category": "settlement",
+      "name": "Balance Settlement Payment",
+      "description": "Authorized payment toward an existing signed balance or installment agreement. Amount is engagement-specific and must be validated against the signed agreement before a Checkout Session is created.",
+      "billing": { "kind": "custom" },
+      "stripe": { "product_id": "prod_V717h7hDwYMLEx", "lookup_key": "rtp_balance_settlement_custom_amount", "seed_strategy": "verify_existing" },
+      "checkout": { "enabled": false, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Agreement-reference gate", "Server-validated amount", "CRM/order correlation", "No arbitrary public amount submission"]
+    },
+    {
+      "key": "saas_subscription_settlement",
+      "category": "settlement",
+      "name": "SaaS Subscription Settlement",
+      "description": "Authorized settlement payment for an existing signed software subscription balance or negotiated billing arrangement.",
+      "billing": { "kind": "custom" },
+      "stripe": { "product_id": "prod_V7173myjbxqBFp", "lookup_key": "rtp_saas_subscription_settlement_custom_amount", "seed_strategy": "verify_existing" },
+      "checkout": { "enabled": false, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Signed-agreement gate", "Server-validated amount", "Subscription reference", "Audit correlation"]
+    },
+    {
+      "key": "token_pack_settlement",
+      "category": "settlement",
+      "name": "Token Pack Purchase Settlement",
+      "description": "Authorized settlement or negotiated purchase payment for token-pack access under a signed agreement.",
+      "billing": { "kind": "custom" },
+      "stripe": { "product_id": "prod_V717yGkeg5z5kH", "lookup_key": "rtp_token_pack_settlement_custom_amount", "seed_strategy": "verify_existing" },
+      "checkout": { "enabled": false, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Signed-agreement gate", "Server-validated amount", "Catalog correlation", "Audit correlation"]
+    },
+    {
+      "key": "implementation_setup_settlement",
+      "category": "settlement",
+      "name": "Implementation Setup Fee Settlement",
+      "description": "Authorized payment for an implementation or setup balance documented in a signed service agreement.",
+      "billing": { "kind": "custom" },
+      "stripe": { "product_id": "prod_V717nQxzX7k5sf", "lookup_key": "rtp_implementation_setup_settlement_custom_amount", "seed_strategy": "verify_existing" },
+      "checkout": { "enabled": false, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Implementation reference", "Signed-agreement gate", "Server-validated amount", "Audit correlation"]
+    },
+    {
+      "key": "ero_efile_operations_settlement",
+      "category": "settlement",
+      "name": "ERO E-file Operations Settlement",
+      "description": "Authorized payment for an ERO/e-file operations balance documented by a signed service agreement. Payment does not itself authorize filing, transmission, or use of IRS credentials.",
+      "billing": { "kind": "custom" },
+      "stripe": { "product_id": "prod_V7180tnlgXniW9", "lookup_key": "rtp_ero_efile_operations_settlement_custom_amount", "seed_strategy": "verify_existing" },
+      "checkout": { "enabled": false, "purchase_order_allowed": true, "requires_signed_agreement": true },
+      "features": ["Agreement-reference gate", "No filing authorization implied", "Server-validated amount", "Audit correlation"]
+    }
+  ]
+}
