@@ -66,9 +66,18 @@ export async function GET() {
   const irsConfigured = Boolean(
     process.env.IRS_CLIENT_ID && process.env.IRS_CLIENT_SECRET && process.env.IRS_REDIRECT_URI,
   );
-  const stripeConfigured = Boolean(
-    process.env.STRIPE_SECRET_KEY && process.env.STRIPE_WEBHOOK_SECRET,
+  const stripeServerConfigured = Boolean(process.env.STRIPE_SECRET_KEY);
+  const stripeClientConfigured = Boolean(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+  const stripeWebhookConfigured = Boolean(process.env.STRIPE_WEBHOOK_SECRET);
+  const billingAdapterConfigured = Boolean(
+    process.env.BILLING_EVENT_ADAPTER_URL && process.env.BILLING_EVENT_ADAPTER_TOKEN,
   );
+  const stripePersistenceVerified = process.env.STRIPE_CRM_PERSISTENCE_VERIFIED === "true";
+  const stripeConfigured = stripeServerConfigured && stripeClientConfigured && stripeWebhookConfigured;
+  const stripeBillingReady = stripeConfigured
+    && Boolean(process.env.DATABASE_URL)
+    && billingAdapterConfigured
+    && stripePersistenceVerified;
   const workerAdapter = await workerAdapterStatus();
 
   return NextResponse.json({
@@ -80,6 +89,10 @@ export async function GET() {
       identity: clerkConfigured ? "configured" : "not_configured",
       irsApi: irsConfigured ? "configured" : "not_configured",
       stripe: stripeConfigured ? "configured" : "not_configured",
+      stripeCheckout: stripeServerConfigured && stripeClientConfigured ? "configured" : "not_configured",
+      stripeWebhook: stripeWebhookConfigured ? "configured" : "not_configured",
+      stripeCrmPersistence: stripePersistenceVerified && billingAdapterConfigured ? "configured" : "not_configured",
+      stripeBilling: stripeBillingReady ? "ready" : "configuration_required",
       workerAdapter: workerAdapter.state,
       workerAdapterAuth: workerAdapter.auth,
       workerAdapterAuthMode: workerAdapter.authMode ?? "none",
