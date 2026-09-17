@@ -34,7 +34,9 @@ export async function POST(request: Request) {
   if (!body || typeof body.itemKey !== "string") return fail("INVALID_SETTLEMENT_REQUEST");
   const item = catalogItemByKey(body.itemKey);
   if (!item || item.billing.kind !== "custom") return fail("SETTLEMENT_ITEM_NOT_AVAILABLE", 404);
-  if (!Number.isInteger(body.amountCents) || (body.amountCents ?? 0) < 100 || (body.amountCents ?? 0) > 5_000_000) {
+
+  const amountCents = body.amountCents;
+  if (typeof amountCents !== "number" || !Number.isInteger(amountCents) || amountCents < 100 || amountCents > 5_000_000) {
     return fail("SETTLEMENT_AMOUNT_OUT_OF_RANGE");
   }
   if (typeof body.agreementReference !== "string" || body.agreementReference.trim().length < 4 || body.agreementReference.length > 120) {
@@ -56,12 +58,12 @@ export async function POST(request: Request) {
       correlationId,
       agreementReference: body.agreementReference.trim(),
       purchaseOrder: body.purchaseOrder?.trim(),
-      amountCents: body.amountCents,
+      amountCents,
     });
 
     const session = await createSettlementCheckout({
       item,
-      amountCents: body.amountCents,
+      amountCents,
       subject: access.principal.subject,
       organizationId: access.organizationId,
       email: access.principal.email,
@@ -81,7 +83,7 @@ export async function POST(request: Request) {
       correlationId,
       stripeSessionId: session.id,
       mode: session.mode,
-      amountCents: body.amountCents,
+      amountCents,
     });
 
     return NextResponse.json({
@@ -89,7 +91,7 @@ export async function POST(request: Request) {
       sessionId: session.id,
       orderNumber: authorization.orderNumber,
       catalogKey: item.key,
-      amountCents: body.amountCents,
+      amountCents,
     }, { status: 201, headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     const code = error instanceof Error ? error.message : "SETTLEMENT_CHECKOUT_FAILED";
